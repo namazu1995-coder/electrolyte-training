@@ -1,0 +1,1034 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none';">
+<title>電解質異常トレーニング</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root{
+    --bg:#F2F4FA;
+    --surface:#FFFFFF;
+    --surface-2:#E7EAF6;
+    --ink:#1C2340;
+    --ink-soft:#565D80;
+    --ink-faint:#5C6389;
+    --line:#DCE1F2;
+    --primary:#3B4EA8;
+    --primary-strong:#262F72;
+    --primary-tint:#E3E7F8;
+    --accent:#954A18;
+    --accent-tint:#FBE9DA;
+    --good:#2E7D4F;
+    --good-tint:#E4F3EA;
+    --warn:#954A18;
+    --warn-tint:#FBE9DA;
+    --mark:#8A5A12;
+    --mark-tint:#F3E7D3;
+    --bad:#B23A3A;
+    --bad-tint:#FBE7E5;
+    --cat-na:#3B4EA8;
+    --cat-na-tint:#E3E7F8;
+    --cat-k:#6B4FA0;
+    --cat-k-tint:#ECE6F7;
+    --cat-ca:#A24B3E;
+    --cat-ca-tint:#F7E7E3;
+    --lab-high:#B23A3A;
+    --lab-high-tint:#FBE7E5;
+    --lab-low:#2A5599;
+    --lab-low-tint:#E3EBF9;
+    --shadow: 0 1px 2px rgba(19,26,52,.06), 0 6px 20px rgba(19,26,52,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#10142A;
+      --surface:#171C38;
+      --surface-2:#1E2444;
+      --ink:#E9ECFA;
+      --ink-soft:#A7AECB;
+      --ink-faint:#8089AE;
+      --line:#2B3260;
+      --primary:#8FA0FF;
+      --primary-strong:#C1CBFF;
+      --primary-tint:#232A54;
+      --accent:#E3A45D;
+      --accent-tint:#3A2A15;
+      --good:#6FC796;
+      --good-tint:#16301F;
+      --warn:#E3A45D;
+      --warn-tint:#3A2A15;
+      --mark:#D9A54B;
+      --mark-tint:#332510;
+      --bad:#E27C7C;
+      --bad-tint:#3A1B1B;
+      --cat-na:#8FA0FF;
+      --cat-na-tint:#232A54;
+      --cat-k:#B79FE0;
+      --cat-k-tint:#2C2440;
+      --cat-ca:#E08B77;
+      --cat-ca-tint:#3A241E;
+      --lab-high:#E27C7C;
+      --lab-high-tint:#3A1B1B;
+      --lab-low:#8FB4E8;
+      --lab-low-tint:#1D2C48;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#10142A;
+    --surface:#171C38;
+    --surface-2:#1E2444;
+    --ink:#E9ECFA;
+    --ink-soft:#A7AECB;
+    --ink-faint:#8089AE;
+    --line:#2B3260;
+    --primary:#8FA0FF;
+    --primary-strong:#C1CBFF;
+    --primary-tint:#232A54;
+    --accent:#E3A45D;
+    --accent-tint:#3A2A15;
+    --good:#6FC796;
+    --good-tint:#16301F;
+    --warn:#E3A45D;
+    --warn-tint:#3A2A15;
+    --mark:#D9A54B;
+    --mark-tint:#332510;
+    --bad:#E27C7C;
+    --bad-tint:#3A1B1B;
+    --cat-na:#8FA0FF;
+    --cat-na-tint:#232A54;
+    --cat-k:#B79FE0;
+    --cat-k-tint:#2C2440;
+    --cat-ca:#E08B77;
+    --cat-ca-tint:#3A241E;
+    --lab-high:#E27C7C;
+    --lab-high-tint:#3A1B1B;
+    --lab-low:#8FB4E8;
+    --lab-low-tint:#1D2C48;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.65;
+  }
+  h1,h2,h3,.disp{
+    font-family:"Zen Kaku Gothic New","Noto Sans JP",system-ui,sans-serif;
+    text-wrap:balance;
+    margin:0;
+  }
+  .mono{ font-family:"JetBrains Mono","Noto Sans JP",monospace; font-variant-numeric:tabular-nums; }
+  #app{
+    max-width:520px;
+    margin:0 auto;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+    padding:14px 18px 12px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .topbar .back{
+    appearance:none; border:none; background:transparent; color:var(--primary);
+    font-size:15px; font-weight:700; cursor:pointer; padding:6px 8px 6px 0;
+    display:flex; align-items:center; gap:2px; min-height:44px;
+    font-family:inherit;
+  }
+  .topbar .title{
+    font-size:15px; font-weight:700; color:var(--ink-soft);
+    letter-spacing:.02em;
+    flex:1;
+    text-align:center;
+    margin-right:34px;
+  }
+  main{flex:1; padding:0 18px 48px;}
+
+  /* ---------- HOME ---------- */
+  .hero{ padding:28px 4px 18px; }
+  .hero .eyebrow{
+    font-size:12px; font-weight:700; letter-spacing:.14em; color:var(--primary);
+    text-transform:uppercase;
+  }
+  .hero h1{ font-size:26px; font-weight:900; color:var(--ink); margin-top:8px; line-height:1.4; }
+  .hero p{ color:var(--ink-soft); font-size:14px; margin-top:10px; max-width:44ch; }
+  .hero .thesis{
+    margin-top:14px; padding:13px 16px; border-radius:12px;
+    background:var(--primary-tint); color:var(--primary-strong);
+    font-size:13px; font-weight:700; line-height:1.7;
+  }
+
+  .progress-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:16px 18px; margin:16px 0 8px; box-shadow:var(--shadow);
+    display:flex; align-items:center; gap:16px;
+  }
+  .progress-ring{ position:relative; width:56px; height:56px; flex:none;}
+  .progress-ring svg{ transform:rotate(-90deg); }
+  .progress-ring .pct{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:13px; font-weight:700; font-variant-numeric:tabular-nums; color:var(--primary-strong);
+  }
+  .progress-text{flex:1;}
+  .progress-text .num{font-size:13px; font-weight:700; color:var(--ink);}
+  .progress-text .sub{font-size:12.5px; color:var(--ink-faint); margin-top:2px;}
+  .review-pill-btn{
+    appearance:none; border:1px solid var(--warn); background:var(--warn-tint); color:var(--warn);
+    font-weight:700; font-size:12.5px; padding:10px 14px; min-height:44px;
+    display:inline-flex; align-items:center; border-radius:999px; cursor:pointer;
+    white-space:nowrap; font-family:inherit;
+  }
+  .summary-cta{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:var(--primary-tint); border:1px solid var(--primary); border-radius:16px;
+    padding:14px 18px; margin:10px 0 24px; cursor:pointer;
+    width:100%; text-align:left; font-family:inherit; appearance:none;
+  }
+  .summary-cta .t{display:block; font-size:14px; font-weight:700; color:var(--primary-strong);}
+  .summary-cta .s{display:block; font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .summary-cta .arrow{color:var(--primary-strong); font-size:18px; flex:none;}
+
+  .section-head{ display:flex; align-items:baseline; gap:8px; margin:26px 0 12px; }
+  .section-head .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .section-head.na .dot{background:var(--cat-na);}
+  .section-head.k .dot{background:var(--cat-k);}
+  .section-head.ca .dot{background:var(--cat-ca);}
+  .section-head h2{font-size:15px; font-weight:700; color:var(--ink);}
+  .section-head .count{font-size:12px; color:var(--ink-faint); font-weight:400;}
+
+  .case-grid{ display:flex; flex-direction:column; gap:10px; }
+  .case-card{
+    display:flex; align-items:center; gap:14px;
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:14px 14px; cursor:pointer; text-align:left; width:100%;
+    box-shadow:var(--shadow); font-family:inherit;
+    appearance:none;
+  }
+  .case-card:active{ transform:scale(.99); }
+  .ion-badge{
+    flex:none; width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:900; font-size:12.5px;
+  }
+  .ion-badge.na{ background:var(--cat-na-tint); color:var(--cat-na); }
+  .ion-badge.k{ background:var(--cat-k-tint); color:var(--cat-k); }
+  .ion-badge.ca{ background:var(--cat-ca-tint); color:var(--cat-ca); }
+  .case-body{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;}
+  .case-body .hint{
+    font-size:14px; font-weight:600; color:var(--ink); line-height:1.4;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .status-chip{
+    flex:none; align-self:flex-start; font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:999px;
+    white-space:nowrap;
+  }
+  .status-chip.none{ background:var(--surface-2); color:var(--ink-faint); }
+  .status-chip.good{ background:var(--good-tint); color:var(--good); }
+  .status-chip.partial{ background:var(--warn-tint); color:var(--warn); }
+  .status-chip.poor{ background:var(--bad-tint); color:var(--bad); }
+
+  .empty-review{ text-align:center; padding:40px 20px; color:var(--ink-faint); font-size:14px; }
+
+  /* ---------- CASE VIEW ---------- */
+  .case-hero{ padding:22px 0 4px; }
+  .case-hero .tag{ font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;}
+  .case-hero .tag.na{ color:var(--cat-na); } .case-hero .tag.k{ color:var(--cat-k); } .case-hero .tag.ca{ color:var(--cat-ca); }
+  .case-hero h1{ font-size:21px; font-weight:900; margin-top:8px; }
+
+  .vignette{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:18px 20px; margin-top:16px; box-shadow:var(--shadow); font-size:15.5px; color:var(--ink);
+  }
+  .lab-strip{ margin-top:12px; padding-top:12px; border-top:1px dashed var(--line); display:flex; flex-wrap:wrap; gap:7px; }
+  .lab-chip{
+    display:inline-flex; align-items:baseline; gap:5px; padding:5px 10px; border-radius:8px;
+    font-size:12.5px; font-weight:600;
+  }
+  .lab-chip .k{ color:inherit; opacity:.75; font-weight:700; }
+  .lab-chip .v{ font-family:"JetBrains Mono",monospace; font-weight:700; font-variant-numeric:tabular-nums; }
+  .lab-chip .u{ font-size:10.5px; opacity:.7; }
+  .lab-chip.high{ background:var(--lab-high-tint); color:var(--lab-high); }
+  .lab-chip.low{ background:var(--lab-low-tint); color:var(--lab-low); }
+  .lab-chip.normal{ background:var(--surface-2); color:var(--ink-soft); }
+  .finding-line{ margin-top:10px; font-size:12.5px; color:var(--ink-soft); }
+  .finding-line b{ color:var(--ink); font-weight:700; }
+
+  .selfcheck-card, .answer-report{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:4px 20px 6px; margin-top:20px; box-shadow:var(--shadow);
+  }
+  .sc-row{ padding:16px 0; border-bottom:1px dashed var(--line); }
+  .sc-row:last-child{ border-bottom:none; }
+  .sc-row label{ display:flex; align-items:baseline; gap:8px; font-size:13.5px; font-weight:700; color:var(--ink); margin-bottom:9px; }
+  .sc-row label .n{ color:var(--primary); flex:none; }
+  .sc-row textarea{
+    width:100%; min-height:54px; max-height:320px; overflow-y:auto; resize:vertical; border-radius:10px;
+    border:1px solid var(--line); background:var(--bg); color:var(--ink);
+    padding:10px 12px; font-family:inherit; font-size:14.5px; line-height:1.6;
+  }
+  .sc-row textarea:focus{ outline:2px solid var(--primary); outline-offset:1px; }
+  .sc-row textarea::placeholder{ color:var(--ink-faint); }
+
+  .ar-row{ padding:16px 0; border-bottom:1px dashed var(--line); }
+  .ar-row:last-child{ border-bottom:none; }
+  .ar-row h3{ display:flex; align-items:center; gap:9px; font-size:13.5px; font-weight:700; margin-bottom:9px; }
+  .ar-row .ico{
+    width:23px;height:23px;border-radius:7px;flex:none; display:flex;align-items:center;justify-content:center;
+    font-size:12px; font-weight:900; color:#fff;
+  }
+  .ico.urgent{ background:var(--bad); }
+  .ico.treat{ background:var(--primary-strong); }
+  .ico.stop{ background:var(--warn); }
+  .ico.rate{ background:var(--cat-k); }
+  .ar-row ul{ margin:0; padding-left:19px; font-size:15.5px; color:var(--ink); }
+  .ar-row li{ margin-bottom:6px; } .ar-row li:last-child{ margin-bottom:0; }
+
+  .reveal-btn{
+    width:100%; margin-top:22px; appearance:none; border:none; cursor:pointer;
+    background:var(--primary); color:#fff; font-weight:700; font-size:15px;
+    padding:15px; border-radius:14px; font-family:inherit;
+    box-shadow:0 4px 14px rgba(59,78,168,.28);
+  }
+  .reveal-btn:active{ transform:scale(.99); }
+
+  .answer-wrap{ margin-top:26px; }
+  .diagnosis-reveal{
+    background:var(--primary-tint); border:1.5px solid var(--primary); border-radius:16px;
+    padding:18px 20px; margin-bottom:16px; text-align:center;
+  }
+  .diagnosis-reveal .dr-eyebrow{ font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--primary-strong); }
+  .diagnosis-reveal .dr-title{
+    font-family:"Zen Kaku Gothic New",sans-serif; font-size:20px; font-weight:900;
+    margin-top:6px; color:var(--ink);
+  }
+  .diagnosis-reveal .dr-sub{ font-size:12.5px; margin-top:6px; color:var(--ink-soft); }
+
+  .pitfall-block{
+    background:var(--warn-tint); border:2px solid var(--warn); border-radius:16px;
+    padding:18px 20px; margin-bottom:20px; box-shadow:0 4px 16px -6px rgba(149,74,24,.35);
+  }
+  .pitfall-block .pf-label{
+    display:flex; align-items:center; gap:8px;
+    font-size:12.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--warn);
+    margin-bottom:10px;
+  }
+  .pitfall-block .pf-mark{
+    width:26px;height:26px;border-radius:50%;background:var(--warn);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;flex:none;
+  }
+  .pitfall-block p{ margin:0; font-size:15px; color:var(--ink); line-height:1.75; }
+
+  .answer-wrap .divider{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+  .answer-wrap .divider .line{ flex:1; height:1px; background:var(--line); }
+  .answer-wrap .divider span{ font-size:12px; font-weight:700; color:var(--ink-faint); letter-spacing:.08em;}
+
+  mark{
+    background:var(--mark-tint); color:var(--mark); padding:1px 5px; border-radius:5px;
+    font-weight:700; box-decoration-break:clone; -webkit-box-decoration-break:clone;
+  }
+
+  .pearl-block{
+    background:var(--surface-2); border:1px solid var(--line); border-radius:16px;
+    padding:16px 18px; margin-top:20px;
+  }
+  .pearl-block .pb-label{ font-size:11.5px; font-weight:700; letter-spacing:.06em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:8px; }
+  .pearl-block ul{ margin:0; padding-left:18px; font-size:14.5px; color:var(--ink-soft); line-height:1.6; }
+  .pearl-block li{ margin-bottom:6px; } .pearl-block li:last-child{ margin-bottom:0; }
+
+  .refs-block{ margin-top:16px; padding-top:14px; border-top:1px dashed var(--line); }
+  .refs-block h4{ font-size:12px; font-weight:700; color:var(--ink-faint); letter-spacing:.06em; margin-bottom:8px; }
+  .refs-block ol{ margin:0; padding-left:19px; font-size:12.5px; color:var(--ink-soft); line-height:1.6; }
+  .refs-block li{ margin-bottom:7px; } .refs-block li:last-child{ margin-bottom:0; }
+  .refs-block a{ color:var(--ink-soft); text-decoration:underline; text-underline-offset:2px; word-break:break-all; }
+  .refs-block a:hover{ color:var(--primary); }
+
+  .assess-block{ margin-top:26px; }
+  .assess-block .q{ font-size:14px; font-weight:700; margin-bottom:12px; text-align:center; }
+  .assess-row{ display:flex; gap:8px; }
+  .assess-btn{
+    flex:1; appearance:none; cursor:pointer; border-radius:12px; padding:13px 6px;
+    font-family:inherit; font-size:12.5px; font-weight:700; line-height:1.4;
+    border:1.5px solid var(--line); background:var(--surface); color:var(--ink-soft);
+  }
+  .assess-btn.good{ border-color:var(--good); }
+  .assess-btn.partial{ border-color:var(--warn); }
+  .assess-btn.poor{ border-color:var(--bad); }
+  .assess-btn.good.active{ background:var(--good); color:#fff; }
+  .assess-btn.partial.active{ background:var(--warn); color:#fff; }
+  .assess-btn.poor.active{ background:var(--bad); color:#fff; }
+  .save-warning{
+    margin-top:12px; padding:10px 14px; border-radius:10px;
+    background:var(--bad-tint); color:var(--bad); font-size:12.5px; font-weight:600; line-height:1.5;
+  }
+
+  .after-assess{ margin-top:22px; display:flex; flex-direction:column; gap:10px; animation:fadein .3s ease; }
+  @keyframes fadein{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .nav-btn{ appearance:none; border:none; cursor:pointer; border-radius:12px; padding:14px; font-family:inherit; font-size:14.5px; font-weight:700; text-align:center; }
+  .nav-btn.primary{ background:var(--primary); color:#fff; }
+  .nav-btn.ghost{ background:var(--surface-2); color:var(--ink-soft); border:1px solid var(--line); }
+
+  /* ---------- APPROACH (初動まとめ) VIEW ---------- */
+  .approach-hero{ padding:24px 0 6px; }
+  .approach-hero .eyebrow{ font-size:12px; font-weight:700; color:var(--primary); letter-spacing:.1em; text-transform:uppercase;}
+  .approach-hero h1{ font-size:22px; font-weight:900; margin-top:8px; }
+  .approach-hero p{ font-size:13.5px; color:var(--ink-soft); margin-top:8px; }
+
+  .goal-note{
+    margin-top:18px; padding:16px 18px; border-radius:14px;
+    background:var(--accent-tint); border:1.5px solid var(--accent);
+  }
+  .goal-note .gn-label{ font-size:12px; font-weight:700; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; }
+  .goal-note .gn-body{ font-size:13.5px; color:var(--ink); margin-top:6px; line-height:1.7; }
+
+  .flow{ margin-top:22px; position:relative; }
+  .flow-step{ display:flex; gap:14px; position:relative; padding-bottom:22px; }
+  .flow-step:last-child{ padding-bottom:0; }
+  .flow-step .rail{ display:flex; flex-direction:column; align-items:center; flex:none; }
+  .flow-step .node{
+    width:32px; height:32px; border-radius:50%; background:var(--primary); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px;
+    font-family:"Zen Kaku Gothic New",sans-serif; flex:none; z-index:1;
+  }
+  .flow-step .stem{ width:2px; flex:1; background:var(--line); margin-top:2px; }
+  .flow-step .content{ flex:1; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 16px; box-shadow:var(--shadow); margin-top:1px;}
+  .flow-step .content h3{ font-size:14.5px; font-weight:700; }
+  .flow-step .content p{ font-size:13px; color:var(--ink-soft); margin-top:5px; }
+
+  .approach-foot{
+    margin-top:26px; padding:16px 18px; background:var(--primary-tint); border-radius:14px;
+    font-size:13px; color:var(--primary-strong); text-align:center; font-weight:700;
+  }
+
+  .disclaimer{ margin-top:30px; padding:14px 16px; font-size:11.5px; color:var(--ink-faint); line-height:1.7; border-top:1px solid var(--line); }
+
+  a{color:var(--primary);}
+  button:focus-visible, textarea:focus-visible, .case-card:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+
+  @media (max-width:380px){
+    .assess-btn{ font-size:11px; padding:12px 3px; }
+  }
+
+  @media (hover:hover){
+    .case-card:hover{ border-color:var(--primary); }
+    .summary-cta:hover{ background:var(--primary-tint); filter:brightness(0.97); }
+    .review-pill-btn:hover{ filter:brightness(0.95); }
+    .reveal-btn:hover{ filter:brightness(1.08); }
+    .assess-btn:hover{ border-color:var(--primary); }
+    .nav-btn.primary:hover{ filter:brightness(1.08); }
+    .nav-btn.ghost:hover{ border-color:var(--primary); }
+    .topbar .back:hover{ text-decoration:underline; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var CAT_LABEL = { na:"ナトリウム異常", k:"カリウム・マグネシウム異常", ca:"カルシウム異常・複合病態" };
+  var CAT_ION = { na:"Na", k:"K", ca:"Ca" };
+
+  var CASES = [
+    {
+      id:"hyperna_dehydration", num:1, cat:"na", tag:"Na異常",
+      title:"高ナトリウム血症", hint:"85歳女性・施設入所中・摂食低下と発熱後の意識障害",
+      vignette:"85歳女性。施設入所中で認知症あり。数日前からの経口摂取低下と発熱があり、本日は呼びかけへの反応が乏しくなったため搬送された。皮膚のツルゴール低下、口腔粘膜の乾燥を認める。",
+      labs:[ {k:"Na",v:"162",u:"mEq/L",abn:"high"}, {k:"K",v:"4.0",u:"mEq/L",abn:"normal"}, {k:"Cr",v:"1.6",u:"mg/dL",abn:"high"}, {k:"血漿浸透圧",v:"336",u:"mOsm/kg",abn:"high"} ],
+      answer:{
+        urgent:["意識障害を伴う<mark>症候性高Na血症は緊急対応が必要</mark>だが、補正の速度自体は急いではいけない","意識レベル・血圧・尿量から<mark>脱水の重症度</mark>を素早く把握し、緊急度を判断する"],
+        treat:["<mark>循環動態が不安定な間は原因検索より先に等張液でvolume resuscitation</mark>を優先する","体重・尿量・水分摂取量の推移から純粋な自由水欠乏かを見極めたうえで、安定後に自由水欠乏量を計算し5%ブドウ糖液など低張液に切り替える"],
+        stop:["高張性の経管栄養剤や利尿薬など<mark>自由水欠乏を助長する要因</mark>を点検する","浸透圧利尿を来す薬剤(マンニトール等)の有無を確認する"],
+        rate:["Naの低下速度は<mark>1時間あたり0.5mEq/L、24時間で8〜10mEq/L以内</mark>を目安にする","急速に下げると<mark>脳浮腫</mark>を招くため、意識障害があっても焦って下げない"]
+      },
+      pitfall:"「Naが高いから5%ブドウ糖液を全開で」と急速に自由水を投与すると、<mark>脳浮腫・痙攣</mark>のリスクがある。高Na血症も低Na血症と同じく、速度を守って補正する。",
+      pearl:["高齢者の高Na血症の多くは口渇中枢の感受性低下や飲水行動の制限による純粋な水欠乏である","自由水欠乏量はおおまかに体内総水分量×(実測Na/140−1)で概算できるが、補正中の頻回の再検が前提になる","血行動態が不安定な例ではまず等張液で循環を立て直し、その後に自由水欠乏の補正へ移るという順序を混同しない"],
+      refs:[ {author:"Sterns RH.", title:"Disorders of Plasma Sodium — Causes, Consequences, and Correction", source:"New England Journal of Medicine", year:"2015", url:"https://doi.org/10.1056/NEJMra1404489"} ]
+    },
+    {
+      id:"hypona_polydipsia", num:2, cat:"na", tag:"Na異常・緊急",
+      title:"重症低ナトリウム血症（症候性）", hint:"50代女性・大量の水分摂取歴・痙攣で搬送",
+      vignette:"50代女性。心因性の多飲があり、来院前に痙攣が1回あった。搬入時は傾眠傾向。体液量は正常〜やや過剰に見える。",
+      labs:[ {k:"Na",v:"108",u:"mEq/L",abn:"low"}, {k:"血漿浸透圧",v:"224",u:"mOsm/kg",abn:"low"}, {k:"尿浸透圧",v:"80",u:"mOsm/kg",abn:"low"} ],
+      answer:{
+        urgent:["痙攣を伴う<mark>症候性の重症低Na血症は救急対応が必要</mark>","頭痛・嘔気・傾眠〜痙攣・昏睡という<mark>症状の重症度</mark>がそのまま介入の閾値になる"],
+        treat:["症候性である以上、<mark>原因の確定より先に治療</mark>を開始する","3%食塩水100〜150mL程度をボーラスし、症状改善または既定の上昇幅まで反復する"],
+        stop:["低張液・自由水の投与を中止する","<mark>サイアザイド系利尿薬</mark>など低Na血症を助長する薬剤があれば中止する"],
+        rate:["症候改善後は<mark>24時間で6〜8mEq/L以内</mark>に留める(高リスク例は4〜6mEq/L以内)","<mark>多飲例は自由水利尿により想定以上に急速に上昇しやすい</mark>ため、ボーラス投与後は<mark>1〜2時間ごとにNaを再検</mark>し早期に過補正を検知する"]
+      },
+      pitfall:"「Naが低いからとりあえず生理食塩水」で管理すると、多飲例では<mark>腎が急速に自由水を排泄し始め、想定を超えて過補正</mark>してしまうことがある。輸液の種類だけでなく<mark>再検の頻度</mark>が安全管理の要になる。",
+      pearl:["多飲やビール多飲による低Na血症は、輸液を始めた途端に腎の希釈能が回復し<mark>自己利尿で急激にNaが上昇</mark>しやすい特殊なパターンである","過補正が疑われたら5%ブドウ糖液とデスモプレシンで<mark>再低下(re-lowering)</mark>させる選択肢を持っておく","浸透圧性脱髄症候群(ODS)は補正後1〜数日してから症状が出ることがあり、補正時点で無症状でも安心できない"],
+      refs:[ {author:"Spasovski G, et al.", title:"Clinical practice guideline on diagnosis and treatment of hyponatraemia", source:"European Journal of Endocrinology", year:"2014", url:"https://doi.org/10.1530/EJE-13-1020"} ]
+    },
+    {
+      id:"siadh", num:3, cat:"na", tag:"Na異常",
+      title:"SIADHによる低ナトリウム血症", hint:"70代男性・肺癌の既往・緩徐な倦怠感と食思不振",
+      vignette:"70代男性。肺癌の治療歴あり。この2週間で進行する倦怠感と食思不振を主訴に受診した。皮膚のツルゴールは保たれ浮腫もなく、起立性の血圧低下もない。",
+      labs:[ {k:"Na",v:"122",u:"mEq/L",abn:"low"}, {k:"血漿浸透圧",v:"254",u:"mOsm/kg",abn:"low"}, {k:"尿浸透圧",v:"420",u:"mOsm/kg",abn:"high"}, {k:"尿Na",v:"45",u:"mEq/L",abn:"high"} ],
+      finding:"TSH・コルチゾールは正常範囲",
+      answer:{
+        urgent:["<mark>慢性・軽度〜中等度で無症状に近ければ緊急補正は不要</mark>","痙攣・高度意識障害など症候性なら重症低Na血症に準じて緊急対応する"],
+        treat:["<mark>偽性低Na血症</mark>(高血糖・高脂血症・高蛋白血症)を除外したうえで、<mark>原因検索(甲状腺機能低下症・副腎不全の除外、悪性腫瘍の再燃、薬剤、肺・中枢病変)を優先</mark>しつつ治療を並行する","第一選択は<mark>水制限</mark>、効果不十分なら塩分・蛋白摂取の増加や利尿薬併用を検討する"],
+        stop:["<mark>SSRI・カルバマゼピン</mark>などSIADHの原因となりうる薬剤があれば中止・変更を検討する"],
+        rate:["<mark>慢性の低Na血症ほど過補正のリスクが高い</mark>ため、原因が慢性でも補正速度の上限(24時間で6〜8mEq/L)は変えない"]
+      },
+      pitfall:"「Naが低いから生理食塩水」は<mark>SIADHではむしろ逆効果になりうる</mark>。尿浸透圧が血漿浸透圧より高い状態で等張液を入れると、水分だけが再吸収されNaは排泄され、<mark>低Na血症がかえって悪化</mark>することがある。",
+      pearl:["低Na血症はまず<mark>体液量(脱水を伴うhypovolemic/正常のeuvolemic/浮腫を伴うhypervolemic)</mark>で分類する。本症例はeuvolemicで、脱水を伴うhypovolemic低Na血症であれば、SIADHとは逆に等張液補充が正しい初動になる","SIADHの診断は除外診断であり、甲状腺機能低下症や副腎不全(特に続発性)でも同様の低Na血症を来しうるため先に除外する","体液量が正常に見えることがSIADHを疑う手がかりになる(浮腫も脱水所見もない)","背景に悪性腫瘍・肺病変・中枢神経病変・薬剤性の原因検索を並行して進める"],
+      refs:[ {author:"Spasovski G, et al.", title:"Clinical practice guideline on diagnosis and treatment of hyponatraemia", source:"European Journal of Endocrinology", year:"2014", url:"https://doi.org/10.1530/EJE-13-1020"} ]
+    },
+    {
+      id:"hyperk_ckd", num:4, cat:"k", tag:"K異常・緊急",
+      title:"高カリウム血症（心電図変化あり）", hint:"70代男性・CKDでACE阻害薬+スピロノラクトン内服中・下痢後の徐脈",
+      vignette:"70代男性。CKD(eGFR 25)でACE阻害薬とスピロノラクトンを内服中。3日前からの下痢に続き、倦怠感と徐脈を主訴に受診した。",
+      labs:[ {k:"K",v:"6.8",u:"mEq/L",abn:"high"}, {k:"Cr",v:"3.1",u:"mg/dL",abn:"high"} ],
+      finding:"心電図：テント状T波、PR延長",
+      answer:{
+        urgent:["<mark>心電図変化を伴う高K血症は生命に関わる緊急事態</mark>","結果を待たず<mark>ベッドサイドで心電図を確認</mark>する"],
+        treat:["<mark>心電図変化があれば原因検索より先に治療</mark>を開始する(下痢の原因検索は後回しでよい)","<mark>グルコン酸カルシウム</mark>で心筋保護→インスリン+グルコース・β2刺激薬で細胞内シフト→排泄促進、の順に進める"],
+        stop:["<mark>ACE阻害薬・スピロノラクトン(K保持性利尿薬)をただちに中止</mark>する","NSAIDs、ST合剤などK上昇に関与しうる薬剤も点検する"],
+        rate:["グルコン酸カルシウムはK自体を下げないため<mark>効果は一時的(数十分)</mark>、その間に根本治療の準備を進める","反応不良・腎不全が高度なら<mark>透析</mark>を早期に相談する"]
+      },
+      pitfall:"「Kが高いから、まずカリウム吸着薬を内服させて様子を見る」は、<mark>効果発現に時間がかかりECG変化を伴う緊急事態には対応できない</mark>。心電図変化がある時点で、下痢の原因精査より先にグルコン酸カルシウムによる心筋保護を後回しにしない。",
+      pearl:["溶血や採血時の駆血帯の長時間使用による<mark>偽性高K血症</mark>もありうるため、治療と並行して静脈血での再検を行う","Ca製剤は<mark>Kを下げるのではなく心筋の興奮性を安定化させる</mark>だけであることを理解しておく(血清K値自体は変化しない)","インスリン投与時は<mark>低血糖予防のブドウ糖同時投与</mark>を忘れない","ACE阻害薬・ARB・K保持性利尿薬の併用はCKD患者で高K血症の主要な誘因になる"],
+      refs:[ {author:"Long B, Warix JR, Koyfman A.", title:"Controversies in the Management of Hyperkalemia", source:"Journal of Emergency Medicine", year:"2018", url:"https://doi.org/10.1016/j.jemermed.2018.04.004"} ]
+    },
+    {
+      id:"hypok_mg_periodic", num:5, cat:"k", tag:"K・Mg異常・緊急",
+      title:"低カリウム血症とQT延長（周期性四肢麻痺）", hint:"20代男性・甲状腺機能亢進の既往・運動後の急激な四肢脱力",
+      vignette:"20代男性。バセドウ病の既往があり内服は自己中断していた。炭水化物を多く含む夕食と激しい運動の後、両下肢に始まる急激な脱力が出現し動けなくなった。",
+      labs:[ {k:"K",v:"2.1",u:"mEq/L",abn:"low"}, {k:"Mg",v:"1.2",u:"mg/dL",abn:"low"}, {k:"FT4",v:"4.8",u:"ng/dL",abn:"high"}, {k:"TSH",v:"<0.01",u:"μIU/mL",abn:"low"} ],
+      finding:"心電図：QT延長、U波",
+      answer:{
+        urgent:["<mark>高度低K血症＋QT延長は致死性不整脈のリスク</mark>があり、心電図モニター下での対応が必要","四肢麻痺が呼吸筋に及べば呼吸不全のリスクもある"],
+        treat:["<mark>診断確定より先にK・Mgの補正を開始</mark>する。心電図モニターを装着しながら対応する","<mark>糖・インスリン投与や過度なブドウ糖負荷は細胞内シフトを助長し悪化させる</mark>ため避ける"],
+        stop:["高炭水化物食・追加の糖負荷を避ける","非選択的β遮断薬(プロプラノロール)は<mark>甲状腺中毒性周期性四肢麻痺の症状緩和に有効</mark>とされ、他の原因の低K血症と対応が異なる点に注意する"],
+        rate:["末梢静脈からのK補充は<mark>通常10mEq/時程度まで</mark>、心電図モニター下・中心静脈ならより高濃度・速度も検討する","<mark>Mgを先または同時に補正しないとKの是正が進まない</mark>ことを前提に投与計画を立てる"]
+      },
+      pitfall:"「K 2.1だからKClを濃厚に急速静注する」だけでは改善しないことがある。<mark>Mgを測らずKだけ追いかける</mark>と、細胞内へのK取り込み不良で補正が難航し、過剰投与によるリバウンド高K血症を招く危険もある。",
+      pearl:["甲状腺中毒性周期性四肢麻痺はアジア系男性に多く、高炭水化物食や激しい運動が誘因になる","補正中はリバウンド性の高K血症に注意し、頻回の再検で投与量を調整する","背景の甲状腺機能亢進症の治療(抗甲状腺薬再開など)を並行して計画する"],
+      refs:[ {author:"Kung AW.", title:"Clinical review: Thyrotoxic periodic paralysis: a diagnostic challenge", source:"Journal of Clinical Endocrinology & Metabolism", year:"2006", url:"https://doi.org/10.1210/jc.2006-0356"} ]
+    },
+    {
+      id:"hypomg_ppi", num:6, cat:"k", tag:"Mg異常",
+      title:"難治性低カリウム血症の背景にある低マグネシウム血症", hint:"70代女性・PPI長期内服+ループ利尿薬・KCl補充を繰り返しても改善しない低K血症",
+      vignette:"70代女性。逆流性食道炎に対しPPIを5年以上内服、心不全に対しループ利尿薬も併用中。外来でKCl処方を繰り返しているが低K血症が改善しない。",
+      labs:[ {k:"K",v:"2.9",u:"mEq/L",abn:"low"}, {k:"Mg",v:"1.0",u:"mg/dL",abn:"low"}, {k:"補正Ca",v:"8.1",u:"mg/dL",abn:"low"} ],
+      finding:"（経口KCl 40mEq/日投与下でも改善なし）",
+      answer:{
+        urgent:["単独では緊急性は高くないが、<mark>QT延長・不整脈の合併がないか心電図で確認</mark>する","低Mg血症が重度なら振戦・テタニーなど神経症状の有無も確認する"],
+        treat:["原因(PPI・利尿薬)の特定より先に<mark>Mgの補充を開始</mark>し、それと並行してKも継続補充する","Mgを補わない限りKだけ増量しても<mark>腎からのK漏出が続き効果が乏しい</mark>"],
+        stop:["可能であれば<mark>PPIの中止・減量、H2受容体拮抗薬などへの変更</mark>を検討する","ループ利尿薬の減量やK保持性利尿薬(スピロノラクトン等)への切り替えも選択肢になる"],
+        rate:["静注Mgは<mark>急速投与で低血圧・徐脈</mark>を来しうるため緩徐に投与し、腎機能に応じて減量する","腎機能低下例では過量投与による高Mg血症にも注意する"]
+      },
+      pitfall:"「KClを増量しているのに上がらないから、さらにKClを増量する」を繰り返すのはよくある誤りで、<mark>Mgを見ないままKだけ追いかけても解決しない</mark>。難治性低Kを見たら反射的にMgを測る。",
+      pearl:["<mark>Kが治療抵抗性のときは必ずMgを測定する</mark>のが原則で、腎からのMg喪失が疑われる場合は尿中Mg排泄(FEMgなど)での評価も選択肢になる","PPIの長期使用は腎外性のMg吸収障害を来し、低Mg血症・二次性の低K血症の原因になりうる","低Mg血症は同時に低Ca血症(PTH分泌・作用障害を介して)も引き起こしうる","Mgの体内量は血清値だけでは正確に反映されないことがあり、症状や治療反応も参考にする"],
+      refs:[ {author:"Ayuk J, Gittoes NJ.", title:"Contemporary view of the clinical relevance of magnesium homeostasis", source:"Annals of Clinical Biochemistry", year:"2014", url:"https://doi.org/10.1177/0004563213517628"} ]
+    },
+    {
+      id:"hyperca_malignancy", num:7, cat:"ca", tag:"Ca異常・緊急",
+      title:"悪性腫瘍による高カルシウム血症", hint:"60代男性・肺扁平上皮癌の既往・体重減少と意識もうろう状態",
+      vignette:"60代男性。肺扁平上皮癌の既往あり。数週間で体重減少、多尿、便秘が進行し、本日は意識がもうろうとして搬送された。",
+      labs:[ {k:"補正Ca",v:"14.2",u:"mg/dL",abn:"high"}, {k:"P",v:"2.0",u:"mg/dL",abn:"low"}, {k:"PTH",v:"8",u:"pg/mL",abn:"low"} ],
+      finding:"PTHrP高値疑い",
+      answer:{
+        urgent:["<mark>Ca>14 mg/dLかつ症候性(意識障害)は高カルシウム血症クリーゼとして緊急対応</mark>する","脱水・腎機能障害の評価も同時に行う"],
+        treat:["<mark>原因の確定より先に治療を開始</mark>する。アルブミン値での補正Ca再計算(可能ならイオン化Ca)は並行して進める","まず<mark>等張液での十分な補液</mark>を行う","続けて<mark>カルシトニン(速効性)</mark>を投与しつつ、<mark>ビスホスホネートやデノスマブ</mark>で持続的な低下を図る"],
+        stop:["サイアザイド系利尿薬、Ca・ビタミンD製剤を中止する","ジギタリス使用中は<mark>高Ca血症下でジギタリス中毒のリスクが上昇</mark>するため注意する"],
+        rate:["ビスホスホネートの効果発現には<mark>2〜4日</mark>かかるため、初期はカルシトニンで速やかな低下を図り併用する","腎機能低下例では<mark>デノスマブが優先</mark>されることが多い"]
+      },
+      pitfall:"「Caが高いからとりあえずラシックス(フロセミド)」は現在は推奨されない対応。<mark>十分な補液がされないまま利尿薬を先行すると脱水が悪化しCaがさらに濃縮</mark>する。ループ利尿薬はあくまで補液後の体液過剰時の補助と位置づける。",
+      pearl:["<mark>PTHが適切に抑制されていなければ(基準範囲内〜高値)原発性副甲状腺機能亢進症、明確に抑制されていれば悪性腫瘍関連(PTHrP等)</mark>を疑うのが鑑別の軸になる(原発性の一部はPTHが基準範囲内に留まることもある)","悪性腫瘍関連高Ca血症の多くはPTHrPを介した液性因子性高Ca血症(HHM)で、PTHは抑制されているのが典型である","治療の主軸は補液＋カルシトニン(即効)＋ビスホスホネート/デノスマブ(持続効果)の組み合わせ","背景腫瘍のコントロールが根本的な再発予防になる"],
+      refs:[ {author:"Walsh J, Gittoes N, Selby P (Society for Endocrinology).", title:"Emergency management of acute hypercalcaemia in adult patients", source:"Endocrine Connections", year:"2016", url:"https://doi.org/10.1530/EC-16-0055"} ]
+    },
+    {
+      id:"hypoca_postop", num:8, cat:"ca", tag:"Ca異常",
+      title:"甲状腺全摘後の低カルシウム血症", hint:"50代女性・甲状腺全摘術翌日・口周囲のしびれとChvostek徴候陽性",
+      vignette:"50代女性。甲状腺全摘術の翌日、口周囲から手指にかけてのしびれとつっぱり感を訴えている。頬部を軽く叩くと口角がぴくつく。",
+      labs:[ {k:"補正Ca",v:"6.8",u:"mg/dL",abn:"low"}, {k:"Mg",v:"1.6",u:"mg/dL",abn:"low"}, {k:"PTH",v:"5",u:"pg/mL",abn:"low"} ],
+      finding:"Chvostek徴候陽性",
+      answer:{
+        urgent:["しびれ・テタニー(Chvostek/Trousseau徴候陽性)などの<mark>症候性所見の有無</mark>で緊急度を判定する","喉頭痙攣・気道症状やQT延長がないか確認する"],
+        treat:["症候性である以上<mark>原因の確定(一過性か永続性か)より先にIVカルシウム</mark>で症状を止める。<mark>イオン化CaとMg</mark>も確認し、アルブミン補正Caだけで判断しない","<mark>Mgが低ければ同時に補正</mark>しないとCaの是正が進みにくい"],
+        stop:["特定の中止薬はないが、<mark>ループ利尿薬</mark>など尿中Ca排泄を促す薬剤があれば見直す","中止薬より、<mark>一過性か永続性かの見極め</mark>が重要。数週間後にPTHを再検し副甲状腺機能の回復を確認する方針を持つ"],
+        rate:["グルコン酸カルシウムは<mark>急速静注ではなく緩徐に希釈して投与</mark>する(不整脈・血管外漏出による組織壊死に注意)","症状安定後は経口Ca・活性型ビタミンDへ移行し漸減する"]
+      },
+      pitfall:"「しびれ程度だから経口Caだけで様子を見る」は、Chvostek徴候陽性などテタニーの所見がある場合は<mark>IV投与を要する症候性低Ca血症</mark>であり見送るべきでない。またMgを確認せず経過を見ると<mark>是正が進まない</mark>。",
+      pearl:["甲状腺全摘後の低Ca血症は副甲状腺の一時的な虚血・損傷によるものが多く、多くは数週間で回復する一過性副甲状腺機能低下症である","低Mg血症はPTH分泌・標的臓器での作用の両方を障害するため、Caだけ見て見逃さない","術後は定期的なCa値のフォローで永続性副甲状腺機能低下症への移行がないか確認する"],
+      refs:[ {author:"Orloff LA, et al.", title:"American Thyroid Association Statement on Postoperative Hypoparathyroidism", source:"Thyroid", year:"2018", url:"https://doi.org/10.1089/thy.2017.0309"} ]
+    },
+    {
+      id:"refeeding", num:9, cat:"ca", tag:"複合病態・緊急",
+      title:"リフィーディング症候群", hint:"20代女性・神経性やせ症で長期の摂食制限後・栄養再開後2日目の呼吸苦",
+      vignette:"20代女性。神経性やせ症で数週間にわたり摂食が極端に制限されていた。入院し高カロリーの経管栄養を通常量で開始したところ、2日目に呼吸苦と下肢浮腫、脱力が出現した。",
+      labs:[ {k:"P",v:"1.2",u:"mg/dL",abn:"low"}, {k:"K",v:"2.8",u:"mEq/L",abn:"low"}, {k:"Mg",v:"1.1",u:"mg/dL",abn:"low"}, {k:"血糖",v:"162",u:"mg/dL",abn:"high"} ],
+      answer:{
+        urgent:["<mark>低栄養患者への急な高カロリー投与後の呼吸苦・浮腫はリフィーディング症候群を疑う緊急事態</mark>","心不全・呼吸筋力低下による呼吸不全に進展しうるため、呼吸数・SpO2や心不全徴候を評価する"],
+        treat:["<mark>原因検索より先に栄養投与量を減量</mark>し、<mark>P・K・Mgをまとめて再検・補正</mark>することが最優先(リフィーディングでは3者がまとめて低下しやすい)","<mark>チアミン(ビタミンB1)を糖質投与に先行・並行して投与</mark>し、Wernicke脳症を予防する"],
+        stop:["<mark>高カロリー・高炭水化物の栄養投与</mark>を中止・減量する","糖質を多く含む輸液(ブドウ糖液など)も見直す"],
+        rate:["栄養投与は<mark>低いカロリーから開始し数日かけて漸増</mark>する","電解質は<mark>症状が出る前に予防的に補正</mark>しておくのが基本方針"]
+      },
+      pitfall:"「低栄養なんだからしっかり栄養を入れないと」と<mark>通常量・急速に高カロリー栄養を開始する</mark>のがそもそもの誤り。予防できる病態であり、開始前のP・K・Mgチェックとチアミン投与、緩徐な増量が対策の中心になる。",
+      pearl:["リフィーディング症候群はインスリン分泌の急増に伴う細胞内への<mark>P・K・Mgの急激なシフト</mark>が本態である","低P血症は心筋・呼吸筋の機能低下を介して心不全・呼吸不全を来しうる","高リスク患者(長期絶食、著明なるいそう、アルコール多飲歴など)を事前に同定し予防的に対応することが最も重要"],
+      refs:[ {author:"da Silva JSV, et al.", title:"ASPEN Consensus Recommendations for Refeeding Syndrome", source:"Nutrition in Clinical Practice", year:"2020", url:"https://doi.org/10.1002/ncp.10474"} ]
+    }
+  ];
+
+  var PROMPTS = [
+    {key:"urgent", num:"①", label:"本当に緊急か", ph:"症状・心電図変化などから判断…"},
+    {key:"treat", num:"②", label:"原因検索より先に治療が必要か", ph:"診断確定を待たず治療すべきか…"},
+    {key:"stop", num:"③", label:"どの薬剤を止めるか", ph:"原因・悪化因子となる薬剤…"},
+    {key:"rate", num:"④", label:"どの速度で補正するか", ph:"補正の上限・下限、モニタリング…"}
+  ];
+  var ICO = { urgent:"!", treat:"▶", stop:"✕", rate:"⏱" };
+
+  var FLOW = [
+    {t:"本当に緊急か", d:"症状(意識障害・痙攣・不整脈・呼吸苦)と心電図変化の有無で、今すぐ介入が要るかをまず判定する。"},
+    {t:"原因検索より先に治療が必要か", d:"症候性・重度異常では、診断確定を待たずに安定化のための治療を先に始める。"},
+    {t:"どの薬剤を止めるか", d:"異常を助長・惹起している薬剤(利尿薬、ACE阻害薬、PPI、Ca/ビタミンD製剤など)を特定し中止・変更を検討する。"},
+    {t:"どの速度で補正するか", d:"速すぎても遅すぎても危険な電解質異常があることを踏まえ、上限・下限速度を守って補正する。"}
+  ];
+
+  var STORE_KEY = "denkaishitsu_progress_v1";
+  var DRAFT_KEY = "denkaishitsu_drafts_v1";
+
+  function loadProgress(){
+    try{
+      var p = JSON.parse(localStorage.getItem(STORE_KEY));
+      return (p && typeof p === "object" && !Array.isArray(p)) ? p : {};
+    }catch(e){ return {}; }
+  }
+  function saveProgress(p){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(p)); return true; }catch(e){ return false; }
+  }
+  function loadDrafts(){
+    try{
+      var d = JSON.parse(localStorage.getItem(DRAFT_KEY));
+      return (d && typeof d === "object" && !Array.isArray(d)) ? d : {};
+    }catch(e){ return {}; }
+  }
+  function saveDrafts(d){
+    try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); return true; }catch(e){ return false; }
+  }
+
+  (function validateCasesData(){
+    var seenIds = Object.create(null), seenNums = Object.create(null), ok = true;
+    var REQUIRED_ANSWER_KEYS = ["urgent","treat","stop","rate"];
+    var VALID_CATS_CHECK = ["na","k","ca"];
+    CASES.forEach(function(c, i){
+      if(seenIds[c.id]) ok = false;
+      seenIds[c.id] = true;
+      if(seenNums[c.num]) ok = false;
+      seenNums[c.num] = true;
+      if(c.num !== i+1) ok = false;
+      if(VALID_CATS_CHECK.indexOf(c.cat) === -1) ok = false;
+      if(!c.labs || !c.labs.length) ok = false;
+      if(!c.answer) { ok = false; }
+      else {
+        REQUIRED_ANSWER_KEYS.forEach(function(k){
+          if(!c.answer[k] || !c.answer[k].length) ok = false;
+        });
+      }
+    });
+    if(!ok && typeof console !== "undefined" && console.warn){
+      console.warn("[denkaishitsu] CASES data integrity check failed: ids/nums/cat/labs/answer are not all valid.");
+    }
+  })();
+
+  var state = {
+    view:"home",
+    caseId:null,
+    reviewOnly:false,
+    progress: loadProgress()
+  };
+
+  var lastSaveFailed = false;
+  var app = document.getElementById("app");
+
+  function escapeHtml(s){
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+  }
+
+  var VALID_STATUSES = ["good","partial","poor"];
+  function safeStatus(s){
+    return VALID_STATUSES.indexOf(s) !== -1 ? s : "none";
+  }
+  function statusLabel(s){
+    if(s==="good") return "自力で言えた";
+    if(s==="partial") return "一部抜けた";
+    if(s==="poor") return "ほぼ言えなかった";
+    return "未挑戦";
+  }
+  var VALID_CATS = ["na","k","ca"];
+  function safeCat(c){ return VALID_CATS.indexOf(c) !== -1 ? c : "na"; }
+
+  function caseById(id){
+    for(var i=0;i<CASES.length;i++){ if(CASES[i].id===id) return CASES[i]; }
+    return null;
+  }
+  function completedCount(){
+    var n=0;
+    for(var i=0;i<CASES.length;i++){ if(safeStatus(state.progress[CASES[i].id]) !== "none") n++; }
+    return n;
+  }
+  function masteredCount(){
+    var n=0;
+    for(var i=0;i<CASES.length;i++){ if(state.progress[CASES[i].id]==="good") n++; }
+    return n;
+  }
+  function reviewCases(){
+    return CASES.filter(function(c){
+      var s = state.progress[c.id];
+      return s === "partial" || s === "poor";
+    });
+  }
+
+  function go(view, caseId){
+    state.view = view;
+    state.caseId = caseId || null;
+    render();
+    window.scrollTo(0,0);
+  }
+
+  /* ---------------- RENDER: HOME ---------------- */
+  function renderHome(){
+    var done = completedCount();
+    var mastered = masteredCount();
+    var total = CASES.length;
+    var pct = Math.round(mastered/total*100);
+    var rev = reviewCases();
+
+    var circumference = 2*Math.PI*24;
+    var offset = circumference * (1 - pct/100);
+
+    var subLine;
+    if(done < total){
+      subLine = (total-done)+"症例が未挑戦";
+    } else if(rev.length){
+      subLine = "復習対象が "+rev.length+" 症例あります";
+    } else {
+      subLine = "全症例クリアです";
+    }
+
+    var html = "";
+    html += '<div class="hero">';
+    html += '  <div class="eyebrow">電解質異常 初動トレーニング</div>';
+    html += '  <h1>電解質異常<br>トレーニング</h1>';
+    html += '  <p>研修医が出会う電解質異常9症例。答えを見る前に、自分の言葉で4つの問いに答えてみましょう。</p>';
+    html += '  <div class="thesis">ゴールは診断名当てではなく、初動を間違えないことです。</div>';
+    html += '</div>';
+
+    html += '<div class="progress-card">';
+    html += '  <div class="progress-ring"><svg width="56" height="56"><circle cx="28" cy="28" r="24" stroke="var(--surface-2)" stroke-width="5" fill="none"/><circle cx="28" cy="28" r="24" stroke="var(--primary)" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="'+circumference+'" stroke-dashoffset="'+offset+'"/></svg><div class="pct">'+pct+'%</div></div>';
+    html += '  <div class="progress-text"><div class="num">'+mastered+' / '+total+' 症例 自力で言えた</div><div class="sub">'+subLine+'</div></div>';
+    if(rev.length){
+      html += '  <button class="review-pill-btn" data-action="toggle-review">復習</button>';
+    }
+    html += '</div>';
+
+    html += '<button class="summary-cta" data-action="goto-approach"><span><span class="t">電解質異常の初動まとめ</span><span class="s">緊急性→治療優先度→中止薬→補正速度</span></span><span class="arrow">›</span></button>';
+
+    if(state.reviewOnly){
+      html += '<div class="section-head"><span class="dot" style="background:var(--warn)"></span><h2>復習対象の症例</h2><span class="count">'+rev.length+'件</span></div>';
+      if(rev.length===0){
+        html += '<div class="empty-review">復習対象の症例はありません。<br>「一覧」から症例を確認できます。</div>';
+      } else {
+        html += '<div class="case-grid">'+rev.map(caseCardHtml).join("")+'</div>';
+      }
+    } else {
+      ["na","k","ca"].forEach(function(cat){
+        var list = CASES.filter(function(c){ return c.cat===cat; });
+        html += '<div class="section-head '+cat+'"><span class="dot"></span><h2>'+CAT_LABEL[cat]+'</h2><span class="count">'+list.length+'症例</span></div>';
+        html += '<div class="case-grid">'+list.map(caseCardHtml).join("")+'</div>';
+      });
+    }
+
+    return html;
+  }
+
+  function caseCardHtml(c){
+    var status = safeStatus(state.progress[c.id]);
+    var cat = safeCat(c.cat);
+    var numStr = (c.num<10?"0":"")+c.num;
+    return '<button class="case-card" data-action="open-case" data-id="'+c.id+'">'+
+      '<span class="ion-badge '+cat+'">'+CAT_ION[cat]+'</span>'+
+      '<span class="case-body"><span class="hint">'+numStr+'　'+c.hint+'</span></span>'+
+      '<span class="status-chip '+status+'">'+statusLabel(status)+'</span>'+
+    '</button>';
+  }
+
+  /* ---------------- RENDER: CASE ---------------- */
+  var revealCache = {};
+  var draftCache = loadDrafts();
+  var pendingStatus = {};
+
+  function labChipHtml(l){
+    var abn = (l.abn==="high"||l.abn==="low") ? l.abn : "normal";
+    var symbol = abn==="high" ? "▲" : (abn==="low" ? "▼" : "");
+    return '<span class="lab-chip '+abn+'"><span class="k">'+escapeHtml(l.k)+'</span><span class="v mono">'+(symbol?symbol+" ":"")+escapeHtml(l.v)+'</span>'+(l.u?'<span class="u">'+escapeHtml(l.u)+'</span>':'')+'</span>';
+  }
+
+  function renderCase(c){
+    var cat = safeCat(c.cat);
+    var html = "";
+    html += '<div class="case-hero"><div class="tag '+cat+'">症例 '+(c.num<10?"0":"")+c.num+'・'+c.tag+'</div><h1>'+c.hint+'</h1></div>';
+    html += '<div class="vignette">'+c.vignette;
+    html += '<div class="lab-strip">'+c.labs.map(labChipHtml).join("")+'</div>';
+    if(c.finding){ html += '<div class="finding-line"><b>所見　</b>'+escapeHtml(c.finding)+'</div>'; }
+    html += '</div>';
+
+    var revealed = !!revealCache[c.id];
+    var drafts = draftCache[c.id] || {};
+
+    html += '<div class="selfcheck-card" id="prompts">';
+    PROMPTS.forEach(function(p){
+      html += '<div class="sc-row">';
+      html += '<label><span class="n">'+p.num+'</span>'+p.label+'</label>';
+      html += '<textarea data-field="'+p.key+'" placeholder="'+p.ph+'">'+ (drafts[p.key] ? escapeHtml(drafts[p.key]) : "") +'</textarea>';
+      html += '</div>';
+    });
+    html += '</div>';
+    html += '<div class="save-warning" id="draftSaveWarning" hidden>⚠ この端末に下書きを保存できませんでした。プライベートブラウズ中か、ストレージが無効になっている可能性があります。この画面を離れると記述内容が失われます。</div>';
+
+    if(!revealed){
+      html += '<button class="reveal-btn" data-action="reveal">模範解答を見る</button>';
+    } else {
+      html += renderAnswer(c);
+    }
+
+    return html;
+  }
+
+  function renderAnswer(c){
+    var catLabel = CAT_LABEL[safeCat(c.cat)];
+    var html = '<div class="answer-wrap">';
+    html += '<div class="diagnosis-reveal"><div class="dr-eyebrow">病態</div><div class="dr-title">'+c.title+'</div><div class="dr-sub">'+catLabel+'</div></div>';
+
+    html += '<div class="pitfall-block"><div class="pf-label"><span class="pf-mark">!</span>ありがちな誤対応</div><p>'+c.pitfall+'</p></div>';
+
+    html += '<div class="divider"><div class="line"></div><span>模範解答</span><div class="line"></div></div>';
+
+    html += '<div class="answer-report">';
+    PROMPTS.forEach(function(p){
+      html += answerRowHtml(p.key, p.label, c.answer[p.key]);
+    });
+    html += '</div>';
+
+    html += renderPearl(c);
+    html += renderRefs(c);
+
+    html += '</div>';
+
+    html += '<div class="assess-block">';
+    html += '<div class="q">自分の答えと照らし合わせて、自己評価しましょう</div>';
+    var curRaw = pendingStatus[c.id] || state.progress[c.id] || "";
+    var cur = VALID_STATUSES.indexOf(curRaw) !== -1 ? curRaw : "";
+    html += '<div class="assess-row">';
+    html += assessBtn("good","自力で言えた", cur);
+    html += assessBtn("partial","一部抜けた", cur);
+    html += assessBtn("poor","ほぼ言えなかった", cur);
+    html += '</div>';
+    if(cur && lastSaveFailed){
+      html += '<div class="save-warning">⚠ この端末には保存できませんでした。プライベートブラウズ中か、ストレージが無効になっている可能性があります。この記録はこの画面を離れると失われます。</div>';
+    }
+    html += '</div>';
+
+    if(cur){
+      html += '<div class="after-assess">';
+      html += '<button class="nav-btn primary" data-action="next-case">次の症例へ</button>';
+      html += '<button class="nav-btn ghost" data-action="goto-home">一覧に戻る</button>';
+      html += '</div>';
+    }
+
+    return html;
+  }
+
+  function answerRowHtml(key, label, items){
+    return '<div class="ar-row"><h3><span class="ico '+key+'">'+ICO[key]+'</span>'+label+'</h3>'+
+      '<ul>'+items.map(function(t){return '<li>'+t+'</li>';}).join("")+'</ul></div>';
+  }
+
+  function renderPearl(c){
+    if(!c.pearl || !c.pearl.length) return "";
+    var items = c.pearl.map(function(t){ return '<li>'+t+'</li>'; }).join("");
+    return '<div class="pearl-block"><div class="pb-label">まとめ</div><ul>'+items+'</ul></div>';
+  }
+
+  function renderRefs(c){
+    if(!c.refs || !c.refs.length) return "";
+    var items = c.refs.map(refEntryHtml).join("");
+    return '<div class="refs-block"><h4>参考</h4><ol>'+items+'</ol></div>';
+  }
+
+  function refEntryHtml(r){
+    var citationParts = [];
+    if(r.author) citationParts.push(escapeHtml(r.author));
+    if(r.title) citationParts.push(escapeHtml(r.title));
+    var pub = [];
+    if(r.source) pub.push(escapeHtml(r.source));
+    if(r.year) pub.push(escapeHtml(String(r.year)));
+    if(pub.length) citationParts.push(pub.join(" "));
+    var text = citationParts.join("．");
+    var linkHtml = "";
+    if(r.url){
+      linkHtml = '<br><a href="'+escapeHtml(r.url)+'" target="_blank" rel="noopener noreferrer">'+escapeHtml(r.url)+'</a>';
+    }
+    return '<li>'+text+linkHtml+'</li>';
+  }
+
+  function assessBtn(kind, label, cur){
+    return '<button class="assess-btn '+kind+(cur===kind?' active':'')+'" data-action="assess" data-kind="'+kind+'">'+label+'</button>';
+  }
+
+  /* ---------------- RENDER: APPROACH (初動まとめ) ---------------- */
+  function renderApproach(){
+    var html = "";
+    html += '<div class="approach-hero"><div class="eyebrow">電解質異常の初動まとめ</div><h1>どの症例でも、まずこの4つを自問する</h1><p>電解質異常はイオンの種類ごとに知識を積み上げるより先に、この4つの問いを毎回自分に投げかける習慣そのものが初動を守ります。特にNa異常は、緊急対応を判断する前に<mark>体液量(脱水か、正常か、過剰か)</mark>がどちらの方向かを意識すると、輸液の選び方を間違えにくくなります。</p></div>';
+    html += '<div class="goal-note"><div class="gn-label">⚡ このアプリのゴール</div><div class="gn-body">「診断名を当てる」ことではありません。<mark>危険な電解質異常を見抜き、初動(緊急対応・治療の優先度・中止薬・補正速度)を間違えない</mark>ことがゴールです。</div></div>';
+    html += '<div class="flow">';
+    FLOW.forEach(function(f,i){
+      html += '<div class="flow-step">';
+      html += '<div class="rail"><div class="node">'+(i+1)+'</div>'+(i<FLOW.length-1?'<div class="stem"></div>':'')+'</div>';
+      html += '<div class="content"><h3>'+f.t+'</h3><p>'+f.d+'</p></div>';
+      html += '</div>';
+    });
+    html += '</div>';
+    html += '<div class="approach-foot">迷ったら、この4つに立ち返る。</div>';
+    return html;
+  }
+
+  /* ---------------- MASTER RENDER ---------------- */
+  function render(){
+    var topbarHtml, mainHtml;
+
+    if(state.view==="home"){
+      topbarHtml = state.reviewOnly
+        ? '<button class="back" data-action="goto-home-full">‹ 一覧</button><div class="title">復習リスト</div>'
+        : '<div class="title">電解質異常トレーニング</div>';
+      mainHtml = renderHome();
+      if(!state.reviewOnly){
+        mainHtml += '<div class="disclaimer">内容は教育目的の一般的な整理です。実際の治療方針は必ず各施設のプロトコルや指導医の判断、最新のガイドラインに従ってください。</div>';
+      }
+    } else if(state.view==="case"){
+      var c = caseById(state.caseId);
+      if(!c){
+        state.view = "home";
+        state.caseId = null;
+        return render();
+      }
+      var numStr = (c.num<10?"0":"")+c.num;
+      topbarHtml = '<button class="back" data-action="goto-home">‹ 一覧</button><div class="title">症例 '+numStr+'</div>';
+      mainHtml = renderCase(c);
+    } else if(state.view==="approach"){
+      topbarHtml = '<button class="back" data-action="goto-home">‹ 一覧</button><div class="title">初動まとめ</div>';
+      mainHtml = renderApproach();
+    }
+
+    app.innerHTML = '<div class="topbar">'+topbarHtml+'</div><main>'+mainHtml+'</main>';
+    bindEvents();
+  }
+
+  /* ---------------- EVENTS ---------------- */
+  function nextInPool(pool, current){
+    var idx = -1;
+    for(var i=0;i<pool.length;i++){ if(pool[i].id===current.id){ idx = i; break; } }
+    return idx === -1 ? pool[0] : pool[(idx+1) % pool.length];
+  }
+
+  function bindEvents(){
+    app.querySelectorAll("[data-action]").forEach(function(el){
+      el.addEventListener("click", function(){
+        var action = el.getAttribute("data-action");
+        if(action==="open-case"){
+          revealCache[el.getAttribute("data-id")] = false;
+          delete pendingStatus[el.getAttribute("data-id")];
+          lastSaveFailed = false;
+          go("case", el.getAttribute("data-id"));
+        } else if(action==="goto-home"){
+          go("home");
+        } else if(action==="goto-home-full"){
+          state.reviewOnly = false;
+          render();
+        } else if(action==="toggle-review"){
+          state.reviewOnly = true;
+          render();
+        } else if(action==="goto-approach"){
+          go("approach");
+        } else if(action==="reveal"){
+          lastSaveFailed = false;
+          collectDraft(state.caseId, true);
+          revealCache[state.caseId] = true;
+          render();
+          var wrap = app.querySelector(".answer-wrap");
+          if(wrap) wrap.scrollIntoView({behavior:"smooth", block:"start"});
+        } else if(action==="assess"){
+          var kind = el.getAttribute("data-kind");
+          var c0 = caseById(state.caseId);
+          if(!c0) return;
+          pendingStatus[state.caseId] = kind;
+          state.progress[state.caseId] = kind;
+          lastSaveFailed = !saveProgress(state.progress);
+          render();
+        } else if(action==="next-case"){
+          var c = caseById(state.caseId);
+          if(!c) return;
+          var pool = state.reviewOnly ? reviewCases() : CASES;
+          if(state.reviewOnly && pool.length === 0){
+            state.reviewOnly = false;
+            pool = CASES;
+          }
+          var next = nextInPool(pool, c);
+          revealCache[next.id] = false;
+          delete pendingStatus[next.id];
+          lastSaveFailed = false;
+          go("case", next.id);
+        }
+      });
+    });
+
+    app.querySelectorAll("textarea[data-field]").forEach(function(ta){
+      ta.addEventListener("input", function(){
+        collectDraft(state.caseId, false);
+      });
+    });
+  }
+
+  var draftSaveTimer = null;
+  function flushDraftSave(){
+    var ok = saveDrafts(draftCache);
+    var warnEl = document.getElementById("draftSaveWarning");
+    if(warnEl){ warnEl.hidden = ok; }
+  }
+  function collectDraft(caseId, flushNow){
+    var d = {};
+    app.querySelectorAll("textarea[data-field]").forEach(function(ta){
+      d[ta.getAttribute("data-field")] = ta.value;
+    });
+    draftCache[caseId] = d;
+    if(draftSaveTimer){ clearTimeout(draftSaveTimer); draftSaveTimer = null; }
+    if(flushNow){
+      flushDraftSave();
+    } else {
+      draftSaveTimer = setTimeout(flushDraftSave, 400);
+    }
+  }
+  window.addEventListener("pagehide", function(){ saveDrafts(draftCache); });
+  document.addEventListener("visibilitychange", function(){
+    if(document.visibilityState === "hidden") saveDrafts(draftCache);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
