@@ -2,6 +2,16 @@
 
 初期研修医向けの電解質異常セルフトレーニングアプリ（単一HTMLファイル）。
 
+## 公開アプリ
+
+https://namazu1995-coder.github.io/electrolyte-training/
+
+<img src="qr-code.png" alt="電解質異常トレーニングへのQRコード" width="180">
+
+スマホでスキャンすればそのまま開けます（当直中の隙間時間用）。
+
+> 上記URLはGitHub Pagesを有効化するまで404になります。手順は本READMEの末尾「GitHub Pagesの有効化」を参照してください。
+
 ## 内容
 
 Na・K・Ca・Mg・Pの電解質異常9症例を収載。各症例で以下の4つの問いに自分の言葉で答えてから模範解答を確認する形式です。
@@ -26,3 +36,15 @@ Na・K・Ca・Mg・Pの電解質異常9症例を収載。各症例で以下の4�
 ## 免責事項
 
 内容は教育目的の一般的な整理です。実際の治療方針は必ず各施設のプロトコルや指導医の判断、最新のガイドラインに従ってください。
+
+## GitHub Pagesの有効化
+
+このリポジトリをGitHubに公開（Publish）した後、以下の手順で `index.html` をWeb公開できます。
+
+1. GitHub上でこのリポジトリを開く
+2. **Settings → Pages** を開く
+3. 「Build and deployment」の **Source** を `Deploy from a branch` にする
+4. **Branch** を `main` / `/ (root)` にして **Save**
+5. 数分待つと、ページ上部に公開URL（`https://namazu1995-coder.github.io/electrolyte-training/`）が表示されます
+
+有効化すると、上記のQRコード・URLがそのまま使えるようになります。
