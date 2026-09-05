@@ -336,6 +336,24 @@
     font-weight:700; box-decoration-break:clone; -webkit-box-decoration-break:clone;
   }
 
+  .rx-block{
+    background:var(--surface); border:1px solid var(--primary); border-radius:16px;
+    padding:16px 18px; margin-top:20px; box-shadow:var(--shadow);
+  }
+  .rx-label{
+    display:flex; align-items:center; gap:8px;
+    font-size:13px; font-weight:700; color:var(--primary-strong); margin-bottom:8px;
+  }
+  .rx-mark{
+    width:22px;height:22px;border-radius:7px;background:var(--primary);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex:none;
+    font-family:"Zen Kaku Gothic New",sans-serif;
+  }
+  .rx-caveat{ margin:0 0 10px; font-size:12px; color:var(--ink-faint); line-height:1.6; }
+  .rx-block ul{ margin:0; padding-left:18px; font-size:14.5px; color:var(--ink); line-height:1.7; }
+  .rx-block li{ margin-bottom:8px; } .rx-block li:last-child{ margin-bottom:0; }
+  .rx-block .mono{ font-size:.95em; }
+
   .pearl-block{
     background:var(--surface-2); border:1px solid var(--line); border-radius:16px;
     padding:16px 18px; margin-top:20px;
@@ -452,9 +470,10 @@
         stop:["高張性の経管栄養剤や利尿薬など<mark>自由水欠乏を助長する要因</mark>を点検する","浸透圧利尿を来す薬剤(マンニトール等)の有無を確認する"],
         rate:["Naの低下速度は<mark>1時間あたり0.5mEq/L、24時間で8〜10mEq/L以内</mark>を目安にする","急速に下げると<mark>脳浮腫</mark>を招くため、意識障害があっても焦って下げない"]
       },
+      rx:["自由水欠乏量 ≈ 体重(kg)×0.45(高齢女性の体内水分係数の目安)×(実測Na÷140−1)。体重50kgなら約3.5L(係数は個人差があるため幅を持たせて見積もる)","第一選択は<mark>5%ブドウ糖液</mark>。3号液など相対的に高張な維持液は自由水補充としては不十分","循環動態安定後、Na低下速度0.5〜1mEq/L/時・24時間で8〜10mEq/L以内を目安に投与速度を逆算し、4〜6時間ごとに再検しながら調整する"],
       pitfall:"「Naが高いから5%ブドウ糖液を全開で」と急速に自由水を投与すると、<mark>脳浮腫・痙攣</mark>のリスクがある。高Na血症も低Na血症と同じく、速度を守って補正する。",
       pearl:["高齢者の高Na血症の多くは口渇中枢の感受性低下や飲水行動の制限による純粋な水欠乏である","自由水欠乏量はおおまかに体内総水分量×(実測Na/140−1)で概算できるが、補正中の頻回の再検が前提になる","血行動態が不安定な例ではまず等張液で循環を立て直し、その後に自由水欠乏の補正へ移るという順序を混同しない"],
-      refs:[ {author:"Sterns RH.", title:"Disorders of Plasma Sodium — Causes, Consequences, and Correction", source:"New England Journal of Medicine", year:"2015", url:"https://doi.org/10.1056/NEJMra1404489"} ]
+      refs:[ {author:"Sterns RH.", title:"Disorders of Plasma Sodium — Causes, Consequences, and Correction", source:"New England Journal of Medicine", year:"2015", url:"https://doi.org/10.1056/NEJMra1404489"}, {author:"柴垣有吾.", title:"水代謝(ナトリウム濃度)異常の考え方", source:"日本腎臓学会誌", year:"2008", url:"https://jsn.or.jp/journal/document/50_2/076-083.pdf"} ]
     },
     {
       id:"hypona_polydipsia", num:2, cat:"na", tag:"Na異常・緊急",
@@ -467,9 +486,10 @@
         stop:["低張液・自由水の投与を中止する","<mark>サイアザイド系利尿薬</mark>など低Na血症を助長する薬剤があれば中止する"],
         rate:["症候改善後は<mark>24時間で6〜8mEq/L以内</mark>に留める(高リスク例は4〜6mEq/L以内)","<mark>多飲例は自由水利尿により想定以上に急速に上昇しやすい</mark>ため、ボーラス投与後は<mark>1〜2時間ごとにNaを再検</mark>し早期に過補正を検知する"]
       },
+      rx:["3%食塩水は院内で調製することが多い(例: 生理食塩水400mLに10%塩化ナトリウム注射液6アンプル(120mL)を加える、Na濃度約510mEq/L相当)。配合比は必ず自施設のプロトコルで確認する","痙攣・昏睡を伴う場合は<mark>3%食塩水100〜150mLを10〜20分でボーラス投与</mark>し、症状を見ながら反復する","投与直後は<mark>1時間ごと</mark>にNaを再検し、24時間の上昇が10〜12mEq/Lを超えたら5%ブドウ糖液での再低下を検討する"],
       pitfall:"「Naが低いからとりあえず生理食塩水」で管理すると、多飲例では<mark>腎が急速に自由水を排泄し始め、想定を超えて過補正</mark>してしまうことがある。輸液の種類だけでなく<mark>再検の頻度</mark>が安全管理の要になる。",
       pearl:["多飲やビール多飲による低Na血症は、輸液を始めた途端に腎の希釈能が回復し<mark>自己利尿で急激にNaが上昇</mark>しやすい特殊なパターンである","過補正が疑われたら5%ブドウ糖液とデスモプレシンで<mark>再低下(re-lowering)</mark>させる選択肢を持っておく","浸透圧性脱髄症候群(ODS)は補正後1〜数日してから症状が出ることがあり、補正時点で無症状でも安心できない"],
-      refs:[ {author:"Spasovski G, et al.", title:"Clinical practice guideline on diagnosis and treatment of hyponatraemia", source:"European Journal of Endocrinology", year:"2014", url:"https://doi.org/10.1530/EJE-13-1020"} ]
+      refs:[ {author:"Spasovski G, et al.", title:"Clinical practice guideline on diagnosis and treatment of hyponatraemia", source:"European Journal of Endocrinology", year:"2014", url:"https://doi.org/10.1530/EJE-13-1020"}, {author:"柴垣有吾.", title:"水代謝(ナトリウム濃度)異常の考え方", source:"日本腎臓学会誌", year:"2008", url:"https://jsn.or.jp/journal/document/50_2/076-083.pdf"} ]
     },
     {
       id:"siadh", num:3, cat:"na", tag:"Na異常",
@@ -483,9 +503,10 @@
         stop:["<mark>SSRI・カルバマゼピン</mark>などSIADHの原因となりうる薬剤があれば中止・変更を検討する"],
         rate:["<mark>慢性の低Na血症ほど過補正のリスクが高い</mark>ため、原因が慢性でも補正速度の上限(24時間で6〜8mEq/L)は変えない"]
       },
+      rx:["水分制限は1日尿量よりやや少なめ、または体重×15〜20mL/日が目安。尿浸透圧が高いほど厳格な制限(800mL/日程度)が必要になることがある","改善不十分なら食塩摂取を1日9g程度に増やす、経口NaCl製剤、ループ利尿薬併用を検討する","<mark>トルバプタン(サムスカ)</mark>は2020年よりSIADHの低Na血症改善に保険適用。通常7.5mg/日から開始(血清Na 125mEq/L未満など高リスク例は3.75mgから)、最大60mg/日まで。<mark>入院下でのNaモニタリングが前提</mark>"],
       pitfall:"「Naが低いから生理食塩水」は<mark>SIADHではむしろ逆効果になりうる</mark>。尿浸透圧が血漿浸透圧より高い状態で等張液を入れると、水分だけが再吸収されNaは排泄され、<mark>低Na血症がかえって悪化</mark>することがある。",
       pearl:["低Na血症はまず<mark>体液量(脱水を伴うhypovolemic/正常のeuvolemic/浮腫を伴うhypervolemic)</mark>で分類する。本症例はeuvolemicで、脱水を伴うhypovolemic低Na血症であれば、SIADHとは逆に等張液補充が正しい初動になる","SIADHの診断は除外診断であり、甲状腺機能低下症や副腎不全(特に続発性)でも同様の低Na血症を来しうるため先に除外する","体液量が正常に見えることがSIADHを疑う手がかりになる(浮腫も脱水所見もない)","背景に悪性腫瘍・肺病変・中枢神経病変・薬剤性の原因検索を並行して進める"],
-      refs:[ {author:"Spasovski G, et al.", title:"Clinical practice guideline on diagnosis and treatment of hyponatraemia", source:"European Journal of Endocrinology", year:"2014", url:"https://doi.org/10.1530/EJE-13-1020"} ]
+      refs:[ {author:"Spasovski G, et al.", title:"Clinical practice guideline on diagnosis and treatment of hyponatraemia", source:"European Journal of Endocrinology", year:"2014", url:"https://doi.org/10.1530/EJE-13-1020"}, {author:"柴垣有吾.", title:"水代謝(ナトリウム濃度)異常の考え方", source:"日本腎臓学会誌", year:"2008", url:"https://jsn.or.jp/journal/document/50_2/076-083.pdf"}, {author:"大塚製薬株式会社.", title:"サムスカOD錠 抗利尿ホルモン不適合分泌症候群(SIADH)における低ナトリウム血症の改善 効能追加承認のお知らせ", source:"ニュースリリース", year:"2020", url:"https://www.otsuka.co.jp/company/newsreleases/2020/20200629_2.html"} ]
     },
     {
       id:"hyperk_ckd", num:4, cat:"k", tag:"K異常・緊急",
@@ -499,9 +520,10 @@
         stop:["<mark>ACE阻害薬・スピロノラクトン(K保持性利尿薬)をただちに中止</mark>する","NSAIDs、ST合剤などK上昇に関与しうる薬剤も点検する"],
         rate:["グルコン酸カルシウムはK自体を下げないため<mark>効果は一時的(数十分)</mark>、その間に根本治療の準備を進める","反応不良・腎不全が高度なら<mark>透析</mark>を早期に相談する"]
       },
+      rx:["グルコン酸カルシウム(カルチコール8.5%)10〜20mLを5〜10分かけて緩徐静注する。効果発現は数分だが持続は30〜60分程度で切れるため、根本治療の準備を並行する","GI療法: 50%ブドウ糖液50mLに速効型インスリン10単位を混注し静注、その後10%ブドウ糖液を50mL/時程度で数時間点滴し遅発性低血糖を予防する","<mark>ロケルマ(ジルコニウムシクロケイ酸ナトリウム)</mark>は1回10gを1日3回・2〜3日、以後維持量1日1回5g。内服後1時間程度から効果が出るとされるが、添付文書上は緊急是正の単独使用は推奨されず、Ca製剤・GI療法と併用するのが基本","血清K 7mEq/L以上、または内科的治療に反応しない例は緊急血液透析を検討する"],
       pitfall:"「Kが高いから、まずカリウム吸着薬を内服させて様子を見る」は、<mark>効果発現に時間がかかりECG変化を伴う緊急事態には対応できない</mark>。心電図変化がある時点で、下痢の原因精査より先にグルコン酸カルシウムによる心筋保護を後回しにしない。",
       pearl:["溶血や採血時の駆血帯の長時間使用による<mark>偽性高K血症</mark>もありうるため、治療と並行して静脈血での再検を行う","Ca製剤は<mark>Kを下げるのではなく心筋の興奮性を安定化させる</mark>だけであることを理解しておく(血清K値自体は変化しない)","インスリン投与時は<mark>低血糖予防のブドウ糖同時投与</mark>を忘れない","ACE阻害薬・ARB・K保持性利尿薬の併用はCKD患者で高K血症の主要な誘因になる"],
-      refs:[ {author:"Long B, Warix JR, Koyfman A.", title:"Controversies in the Management of Hyperkalemia", source:"Journal of Emergency Medicine", year:"2018", url:"https://doi.org/10.1016/j.jemermed.2018.04.004"} ]
+      refs:[ {author:"Long B, Warix JR, Koyfman A.", title:"Controversies in the Management of Hyperkalemia", source:"Journal of Emergency Medicine", year:"2018", url:"https://doi.org/10.1016/j.jemermed.2018.04.004"}, {author:"独立行政法人医薬品医療機器総合機構(PMDA).", title:"ロケルマ懸濁用散分包5g/10g 添付文書", source:"PMDA", year:"2020", url:"https://www.pmda.go.jp/drugs/2020/P20200407002/670227000_30200AMX00430_B100_1.pdf"} ]
     },
     {
       id:"hypok_mg_periodic", num:5, cat:"k", tag:"K・Mg異常・緊急",
@@ -515,6 +537,7 @@
         stop:["高炭水化物食・追加の糖負荷を避ける","非選択的β遮断薬(プロプラノロール)は<mark>甲状腺中毒性周期性四肢麻痺の症状緩和に有効</mark>とされ、他の原因の低K血症と対応が異なる点に注意する"],
         rate:["末梢静脈からのK補充は<mark>通常10mEq/時程度まで</mark>、心電図モニター下・中心静脈ならより高濃度・速度も検討する","<mark>Mgを先または同時に補正しないとKの是正が進まない</mark>ことを前提に投与計画を立てる"]
       },
+      rx:["末梢静脈からのKCL投与は<mark>濃度40mEq/L以下、速度20mEq/時(1分8mLが目安)を超えない</mark>、1日総量100mEqまでが目安。<mark>急速静注(ワンショット)は行わない</mark>","硫酸マグネシウムは1日2〜4gを緩徐に静注・分割投与し、血中Mg正常化まで継続する","プロプラノロールは国際文献で経口3〜4mg/kgの単回投与が報告されているが、国内で確立した標準用量はなく、実臨床では少量からの漸増が行われることが多い(要専門医確認)"],
       pitfall:"「K 2.1だからKClを濃厚に急速静注する」だけでは改善しないことがある。<mark>Mgを測らずKだけ追いかける</mark>と、細胞内へのK取り込み不良で補正が難航し、過剰投与によるリバウンド高K血症を招く危険もある。",
       pearl:["甲状腺中毒性周期性四肢麻痺はアジア系男性に多く、高炭水化物食や激しい運動が誘因になる","補正中はリバウンド性の高K血症に注意し、頻回の再検で投与量を調整する","背景の甲状腺機能亢進症の治療(抗甲状腺薬再開など)を並行して計画する"],
       refs:[ {author:"Kung AW.", title:"Clinical review: Thyrotoxic periodic paralysis: a diagnostic challenge", source:"Journal of Clinical Endocrinology & Metabolism", year:"2006", url:"https://doi.org/10.1210/jc.2006-0356"} ]
@@ -531,9 +554,10 @@
         stop:["可能であれば<mark>PPIの中止・減量、H2受容体拮抗薬などへの変更</mark>を検討する","ループ利尿薬の減量やK保持性利尿薬(スピロノラクトン等)への切り替えも選択肢になる"],
         rate:["静注Mgは<mark>急速投与で低血圧・徐脈</mark>を来しうるため緩徐に投与し、腎機能に応じて減量する","腎機能低下例では過量投与による高Mg血症にも注意する"]
       },
+      rx:["硫酸マグネシウムを1日2〜4g、生食や5%ブドウ糖液に希釈し緩徐に静注する。血中Mg正常化まで継続する","経口移行は酸化マグネシウムを1回330〜500mg・1日2〜3回程度から開始し、腎機能を見ながら調整する。<mark>eGFR 45未満では血清Mg値のモニタリングを強化し、eGFR 15未満では高Mg血症リスクに特に注意</mark>する","PPIは低Mg血症について添付文書上の注意喚起対象。可能であれば消化器科と相談のうえ中止・変更を検討する"],
       pitfall:"「KClを増量しているのに上がらないから、さらにKClを増量する」を繰り返すのはよくある誤りで、<mark>Mgを見ないままKだけ追いかけても解決しない</mark>。難治性低Kを見たら反射的にMgを測る。",
       pearl:["<mark>Kが治療抵抗性のときは必ずMgを測定する</mark>のが原則で、腎からのMg喪失が疑われる場合は尿中Mg排泄(FEMgなど)での評価も選択肢になる","PPIの長期使用は腎外性のMg吸収障害を来し、低Mg血症・二次性の低K血症の原因になりうる","低Mg血症は同時に低Ca血症(PTH分泌・作用障害を介して)も引き起こしうる","Mgの体内量は血清値だけでは正確に反映されないことがあり、症状や治療反応も参考にする"],
-      refs:[ {author:"Ayuk J, Gittoes NJ.", title:"Contemporary view of the clinical relevance of magnesium homeostasis", source:"Annals of Clinical Biochemistry", year:"2014", url:"https://doi.org/10.1177/0004563213517628"} ]
+      refs:[ {author:"Ayuk J, Gittoes NJ.", title:"Contemporary view of the clinical relevance of magnesium homeostasis", source:"Annals of Clinical Biochemistry", year:"2014", url:"https://doi.org/10.1177/0004563213517628"}, {author:"独立行政法人医薬品医療機器総合機構(PMDA).", title:"酸化マグネシウム製剤の適正使用に関するお願い(高マグネシウム血症)", source:"PMDA", year:"2020", url:"https://www.pmda.go.jp/files/000235889.pdf"} ]
     },
     {
       id:"hyperca_malignancy", num:7, cat:"ca", tag:"Ca異常・緊急",
@@ -547,6 +571,7 @@
         stop:["サイアザイド系利尿薬、Ca・ビタミンD製剤を中止する","ジギタリス使用中は<mark>高Ca血症下でジギタリス中毒のリスクが上昇</mark>するため注意する"],
         rate:["ビスホスホネートの効果発現には<mark>2〜4日</mark>かかるため、初期はカルシトニンで速やかな低下を図り併用する","腎機能低下例では<mark>デノスマブが優先</mark>されることが多い"]
       },
+      rx:["生理食塩水は尿量250mL/hr前後を目標に投与する(高齢・心不全例は速度を落とす)。脱水補正が済むまでループ利尿薬は原則併用しない","エルカトニン(エルシトニン)40単位を1日2回筋注/点滴。効果は速いが数日でtachyphylaxis(効果減弱)が生じるため、ビスホスホネート等の効果発現までの橋渡しとして使う","<mark>ゾレドロン酸(ゾメタ)4mgを15分以上かけて点滴静注</mark>する。効果発現まで2〜4日かかり、再投与は1週間以上あける","デノスマブ(ランマーク)120mg皮下注は腎機能低下例で優先されることが多い。投与後は<mark>低Ca血症のモニタリングが必須</mark>"],
       pitfall:"「Caが高いからとりあえずラシックス(フロセミド)」は現在は推奨されない対応。<mark>十分な補液がされないまま利尿薬を先行すると脱水が悪化しCaがさらに濃縮</mark>する。ループ利尿薬はあくまで補液後の体液過剰時の補助と位置づける。",
       pearl:["<mark>PTHが適切に抑制されていなければ(基準範囲内〜高値)原発性副甲状腺機能亢進症、明確に抑制されていれば悪性腫瘍関連(PTHrP等)</mark>を疑うのが鑑別の軸になる(原発性の一部はPTHが基準範囲内に留まることもある)","悪性腫瘍関連高Ca血症の多くはPTHrPを介した液性因子性高Ca血症(HHM)で、PTHは抑制されているのが典型である","治療の主軸は補液＋カルシトニン(即効)＋ビスホスホネート/デノスマブ(持続効果)の組み合わせ","背景腫瘍のコントロールが根本的な再発予防になる"],
       refs:[ {author:"Walsh J, Gittoes N, Selby P (Society for Endocrinology).", title:"Emergency management of acute hypercalcaemia in adult patients", source:"Endocrine Connections", year:"2016", url:"https://doi.org/10.1530/EC-16-0055"} ]
@@ -563,6 +588,7 @@
         stop:["特定の中止薬はないが、<mark>ループ利尿薬</mark>など尿中Ca排泄を促す薬剤があれば見直す","中止薬より、<mark>一過性か永続性かの見極め</mark>が重要。数週間後にPTHを再検し副甲状腺機能の回復を確認する方針を持つ"],
         rate:["グルコン酸カルシウムは<mark>急速静注ではなく緩徐に希釈して投与</mark>する(不整脈・血管外漏出による組織壊死に注意)","症状安定後は経口Ca・活性型ビタミンDへ移行し漸減する"]
       },
+      rx:["カルチコール8.5%を8.5〜10mLを目安に10分以上かけて緩徐静注する。改善しなければ追加投与を検討する","持続点滴が必要な場合は10〜20mL程度を生食または5%ブドウ糖液500mLに希釈し、4〜6時間ごとに再検しながら速度を調整する(目標は補正Ca 8.0〜8.5mg/dL程度)","経口移行時はアルファカルシドール0.5〜1.0μg/日程度から開始し、乳酸カルシウムなどの経口Ca製剤を併用しながら点滴を漸減する"],
       pitfall:"「しびれ程度だから経口Caだけで様子を見る」は、Chvostek徴候陽性などテタニーの所見がある場合は<mark>IV投与を要する症候性低Ca血症</mark>であり見送るべきでない。またMgを確認せず経過を見ると<mark>是正が進まない</mark>。",
       pearl:["甲状腺全摘後の低Ca血症は副甲状腺の一時的な虚血・損傷によるものが多く、多くは数週間で回復する一過性副甲状腺機能低下症である","低Mg血症はPTH分泌・標的臓器での作用の両方を障害するため、Caだけ見て見逃さない","術後は定期的なCa値のフォローで永続性副甲状腺機能低下症への移行がないか確認する"],
       refs:[ {author:"Orloff LA, et al.", title:"American Thyroid Association Statement on Postoperative Hypoparathyroidism", source:"Thyroid", year:"2018", url:"https://doi.org/10.1089/thy.2017.0309"} ]
@@ -578,9 +604,10 @@
         stop:["<mark>高カロリー・高炭水化物の栄養投与</mark>を中止・減量する","糖質を多く含む輸液(ブドウ糖液など)も見直す"],
         rate:["栄養投与は<mark>低いカロリーから開始し数日かけて漸増</mark>する","電解質は<mark>症状が出る前に予防的に補正</mark>しておくのが基本方針"]
       },
+      rx:["栄養投与は<mark>5〜10kcal/kg/日程度から開始</mark>し、P・K・Mgと血糖を頻回にモニタリングしながら数日〜1週間ほどかけて漸増する","リン酸補正はリン酸として0.08〜0.5mmol/kgを6時間程度かけて緩徐に点滴する。<mark>急速投与は低Ca血症・異所性石灰化のリスクがあり厳禁</mark>","チアミン(フルスルチアミン)100〜300mg/日を栄養再開前から静注で開始し、数日間継続してWernicke脳症を予防する"],
       pitfall:"「低栄養なんだからしっかり栄養を入れないと」と<mark>通常量・急速に高カロリー栄養を開始する</mark>のがそもそもの誤り。予防できる病態であり、開始前のP・K・Mgチェックとチアミン投与、緩徐な増量が対策の中心になる。",
       pearl:["リフィーディング症候群はインスリン分泌の急増に伴う細胞内への<mark>P・K・Mgの急激なシフト</mark>が本態である","低P血症は心筋・呼吸筋の機能低下を介して心不全・呼吸不全を来しうる","高リスク患者(長期絶食、著明なるいそう、アルコール多飲歴など)を事前に同定し予防的に対応することが最も重要"],
-      refs:[ {author:"da Silva JSV, et al.", title:"ASPEN Consensus Recommendations for Refeeding Syndrome", source:"Nutrition in Clinical Practice", year:"2020", url:"https://doi.org/10.1002/ncp.10474"} ]
+      refs:[ {author:"da Silva JSV, et al.", title:"ASPEN Consensus Recommendations for Refeeding Syndrome", source:"Nutrition in Clinical Practice", year:"2020", url:"https://doi.org/10.1002/ncp.10474"}, {author:"日本静脈経腸栄養学会(JSPEN).", title:"静脈経腸栄養ガイドライン第3版", source:"照林社", year:"2013", url:"https://minds.jcqhc.or.jp/summary/c00230/"} ]
     }
   ];
 
@@ -824,6 +851,7 @@
     });
     html += '</div>';
 
+    html += renderRx(c);
     html += renderPearl(c);
     html += renderRefs(c);
 
@@ -856,6 +884,14 @@
   function answerRowHtml(key, label, items){
     return '<div class="ar-row"><h3><span class="ico '+key+'">'+ICO[key]+'</span>'+label+'</h3>'+
       '<ul>'+items.map(function(t){return '<li>'+t+'</li>';}).join("")+'</ul></div>';
+  }
+
+  function renderRx(c){
+    if(!c.rx || !c.rx.length) return "";
+    var items = c.rx.map(function(t){ return '<li>'+t+'</li>'; }).join("");
+    return '<div class="rx-block"><div class="rx-label"><span class="rx-mark">℞</span>具体的な処方例</div>'+
+      '<p class="rx-caveat">年齢・腎機能・心機能・体重により個別調整が必要な目安です。実際の投与量・速度は必ず添付文書・自施設のプロトコル・指導医で確認してください。</p>'+
+      '<ul>'+items+'</ul></div>';
   }
 
   function renderPearl(c){
