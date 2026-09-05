@@ -421,6 +421,33 @@
   .flow-step .content h3{ font-size:14.5px; font-weight:700; }
   .flow-step .content p{ font-size:13px; color:var(--ink-soft); margin-top:5px; }
 
+  .axis-section-title{ font-size:16px; font-weight:700; color:var(--ink); margin:32px 0 6px; }
+  .axis-section-note{ font-size:13px; color:var(--ink-soft); margin:0 0 16px; }
+
+  .axis-card{
+    background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--primary);
+    border-radius:14px; padding:16px 18px; margin-bottom:14px; box-shadow:var(--shadow);
+  }
+  .axis-card.na{ border-left-color:var(--cat-na); }
+  .axis-card.k{ border-left-color:var(--cat-k); }
+  .axis-card.ca{ border-left-color:var(--cat-ca); }
+  .axis-head{ display:flex; align-items:center; gap:9px; margin-bottom:8px; }
+  .axis-dot{ width:9px; height:9px; border-radius:50%; flex:none; background:var(--primary); }
+  .axis-card.na .axis-dot{ background:var(--cat-na); }
+  .axis-card.k .axis-dot{ background:var(--cat-k); }
+  .axis-card.ca .axis-dot{ background:var(--cat-ca); }
+  .axis-head h3{ font-size:15px; font-weight:700; color:var(--ink); }
+  .axis-intro{ font-size:13.5px; color:var(--ink-soft); margin:0 0 12px; line-height:1.7; }
+  .axis-steps{ margin:0 0 12px; padding-left:20px; display:flex; flex-direction:column; gap:11px; }
+  .axis-steps li{ font-size:14px; line-height:1.75; }
+  .axis-steps li b{ display:block; color:var(--ink); font-weight:700; margin-bottom:3px; }
+  .axis-steps li span{ color:var(--ink-soft); }
+  .axis-note{
+    background:var(--surface-2); border-radius:10px; padding:11px 13px;
+    font-size:13.5px; color:var(--ink); line-height:1.65; margin-bottom:9px;
+  }
+  .axis-refs{ font-size:11px; color:var(--ink-faint); }
+
   .approach-foot{
     margin-top:26px; padding:16px 18px; background:var(--primary-tint); border-radius:14px;
     font-size:13px; color:var(--primary-strong); text-align:center; font-weight:700;
@@ -624,6 +651,43 @@
     {t:"原因検索より先に治療が必要か", d:"症候性・重度異常では、診断確定を待たずに安定化のための治療を先に始める。"},
     {t:"どの薬剤を止めるか", d:"異常を助長・惹起している薬剤(利尿薬、ACE阻害薬、PPI、Ca/ビタミンD製剤など)を特定し中止・変更を検討する。"},
     {t:"どの速度で補正するか", d:"速すぎても遅すぎても危険な電解質異常があることを踏まえ、上限・下限速度を守って補正する。"}
+  ];
+
+  var AXES = [
+    {
+      cat:"na", label:"ナトリウム異常の分類軸",
+      intro:"Na異常は「浸透圧」→「体液量」の順に絞り込むと、輸液の種類を間違えにくくなる。",
+      steps:[
+        {t:"①浸透圧を測る", d:"高血糖・マンニトール等による高張性、高脂血症・高蛋白血症による見かけ上の低値(偽性低Na血症)を除外し、真の低張性低Na血症かを確認する。"},
+        {t:"②体液量を評価する", d:"皮膚ツルゴール・浮腫・起立性低血圧などの身体所見から<mark>hypovolemic(脱水を伴う)/euvolemic(正常)/hypervolemic(浮腫を伴う)</mark>に分類する。ここを誤ると輸液選択も誤る(SIADHに生食を入れると悪化しうる、脱水に水制限は不適切、など)。"},
+        {t:"③尿浸透圧・尿Naで絞り込む", d:"euvolemicで尿浸透圧が血漿浸透圧に対し不適切に高く尿Na&gt;30〜40mEq/LならSIADHを疑う。hypovolemicでは尿Na&lt;20mEq/Lは腎外性喪失(嘔吐・下痢等)、それ以上は腎性喪失(利尿薬、副腎不全等)を示唆する。"}
+      ],
+      note:"同じ3ステップは高Na血症にも応用でき、多くは自由水欠乏(高齢者の摂取不足、尿崩症など)に帰着する。",
+      refs:["Spasovski G, et al. Eur J Endocrinol 2014","柴垣有吾. 日本腎臓学会誌 2008"]
+    },
+    {
+      cat:"k", label:"カリウム・マグネシウム異常の分類軸",
+      intro:"K異常はまず偽性異常を除外し、「シフト」か「排泄障害・喪失」かを区別する。",
+      steps:[
+        {t:"①高K血症: 偽性高K血症を除外", d:"溶血、著明な血小板増多・白血球増多、駆血帯の長時間使用による見かけ上の高値がないかをまず確認する。"},
+        {t:"②高K血症: シフトか排泄障害か", d:"急性のアシドーシス・組織崩壊・インスリン不足による細胞内外の急激なシフトか、CKD・低アルドステロン症・K保持性利尿薬による慢性的な排泄障害かを、経過の急性度と腎機能から見分ける。"},
+        {t:"③低K血症: 腎性か腎外性か", d:"<mark>尿中K/Cr比</mark>が目安になる(高値なら腎性喪失、低値なら細胞内シフトや消化管喪失などの腎外性を疑う)。TTKGは尿浸透圧の影響を受けやすく現在は精度に疑問が呈されており、実務的には尿中K/Cr比の方が使いやすい。"},
+        {t:"④低K血症: 血圧・酸塩基平衡を組み合わせる", d:"高血圧+代謝性アルカローシスはミネラルコルチコイド過剰(原発性アルドステロン症、甘草、偽性アルドステロン症など)を示唆する所見になる。"}
+      ],
+      note:"補正に抵抗する、または原因がはっきりしない低K血症では、常に<mark>Mgを測る</mark>(本アプリの複数症例で繰り返し登場する落とし穴)。",
+      refs:["Leiva-Murillo EA, et al. Cleve Clin J Med 2025","Flowers KC, et al. J Lab Precis Med 2022"]
+    },
+    {
+      cat:"ca", label:"カルシウム・複合病態の分類軸",
+      intro:"Ca異常はPTHを測り、「PTH依存性」か「PTH非依存性」かで原因を大きく二分する。",
+      steps:[
+        {t:"①高Ca血症: PTHを測る", d:"PTHが抑制されていなければ(基準範囲内〜高値)原発性副甲状腺機能亢進症、または家族性低尿中Ca性高Ca血症(FHH、尿Ca/Cr比&lt;0.01が目安)を疑う。PTHが明確に抑制されていれば悪性腫瘍関連(PTHrP等)、ビタミンD過剰、肉芽腫性疾患などPTH非依存性を疑う。"},
+        {t:"②低Ca血症: PTHを測る", d:"PTHが低値〜正常なら副甲状腺機能低下症(術後・特発性)を疑う。PTHが適切に上昇していればビタミンD欠乏や腎不全など二次性の反応と考え、原因検索を進める。"},
+        {t:"③Mgを忘れない", d:"低Mg血症はPTHの分泌・作用の両方を妨げ、PTHが上昇すべき場面で上昇しない<mark>機能的な副甲状腺機能低下症</mark>を来しうる。低Ca血症・治療抵抗性の低K血症をみたら、Mgも合わせて確認する。"}
+      ],
+      note:"リフィーディング症候群のようにP・K・Mgが同時に動く複合病態では、電解質を一つずつ追うのではなく<mark>まとめて評価・補正する視点</mark>を持つ。",
+      refs:["Flowers KC, et al. J Lab Precis Med 2024","Walsh J, et al. Endocr Connect 2016"]
+    }
   ];
 
   var STORE_KEY = "denkaishitsu_progress_v1";
@@ -929,8 +993,10 @@
   /* ---------------- RENDER: APPROACH (初動まとめ) ---------------- */
   function renderApproach(){
     var html = "";
-    html += '<div class="approach-hero"><div class="eyebrow">電解質異常の初動まとめ</div><h1>どの症例でも、まずこの4つを自問する</h1><p>電解質異常はイオンの種類ごとに知識を積み上げるより先に、この4つの問いを毎回自分に投げかける習慣そのものが初動を守ります。特にNa異常は、緊急対応を判断する前に<mark>体液量(脱水か、正常か、過剰か)</mark>がどちらの方向かを意識すると、輸液の選び方を間違えにくくなります。</p></div>';
+    html += '<div class="approach-hero"><div class="eyebrow">電解質異常の初動まとめ</div><h1>初動を守る2つの武器</h1><p>電解質異常は種類が多く、丸暗記では対応しきれない。<mark>①症例によらず必ず自問する4つの問い</mark>と、<mark>②イオンごとに原因を絞り込む診断の型</mark>、この2つを持っておくと、初めて見る症例でも初動を組み立てられる。</p></div>';
     html += '<div class="goal-note"><div class="gn-label">⚡ このアプリのゴール</div><div class="gn-body">「診断名を当てる」ことではありません。<mark>危険な電解質異常を見抜き、初動(緊急対応・治療の優先度・中止薬・補正速度)を間違えない</mark>ことがゴールです。</div></div>';
+
+    html += '<h2 class="axis-section-title">①症例によらず、まず自問する4つ</h2>';
     html += '<div class="flow">';
     FLOW.forEach(function(f,i){
       html += '<div class="flow-step">';
@@ -939,7 +1005,27 @@
       html += '</div>';
     });
     html += '</div>';
-    html += '<div class="approach-foot">迷ったら、この4つに立ち返る。</div>';
+
+    html += '<h2 class="axis-section-title">②イオンごとの診断の型</h2>';
+    html += '<p class="axis-section-note">個別症例で学んだ知識を、初めて見る症例にも応用できる「型」に変換しておく。</p>';
+    html += AXES.map(renderAxisCard).join('');
+
+    html += '<div class="approach-foot">迷ったら、この2つの武器に立ち返る。</div>';
+    return html;
+  }
+
+  function renderAxisCard(ax){
+    var html = '<div class="axis-card '+ax.cat+'">';
+    html += '<div class="axis-head"><span class="axis-dot"></span><h3>'+ax.label+'</h3></div>';
+    html += '<p class="axis-intro">'+ax.intro+'</p>';
+    html += '<ol class="axis-steps">';
+    ax.steps.forEach(function(s){
+      html += '<li><b>'+s.t+'</b><span>'+s.d+'</span></li>';
+    });
+    html += '</ol>';
+    html += '<div class="axis-note">'+ax.note+'</div>';
+    html += '<div class="axis-refs">'+ax.refs.map(escapeHtml).join(' / ')+'</div>';
+    html += '</div>';
     return html;
   }
 
