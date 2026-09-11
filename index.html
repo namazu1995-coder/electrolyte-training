@@ -570,7 +570,7 @@
       labs:[ {k:"K",v:"2.1",u:"mEq/L",abn:"low"}, {k:"Mg",v:"1.2",u:"mg/dL",abn:"low"}, {k:"FT4",v:"4.8",u:"ng/dL",abn:"high"}, {k:"TSH",v:"<0.01",u:"μIU/mL",abn:"low"} ],
       finding:"心電図：QT延長、U波",
       answer:{
-        urgent:["<mark>高度低K血症＋QT延長は致死性不整脈のリスク</mark>があり、心電図モニター下での対応が必要","四肢麻痺が呼吸筋に及べば呼吸不全のリスクもある"],
+        urgent:["<mark>高度低K血症＋QT延長は致死性不整脈のリスク</mark>があり、心電図モニター下での対応が必要","四肢麻痺が呼吸筋に及べば呼吸不全のリスクもある","<mark>致死性不整脈のリスクや呼吸筋麻痺の徴候があれば、単独対応せず上級医に速やかに報告</mark>する"],
         treat:["<mark>診断確定より先にK・Mgの補正を開始</mark>する。心電図モニターを装着しながら対応する","<mark>糖・インスリン投与や過度なブドウ糖負荷は細胞内シフトを助長し悪化させる</mark>ため避ける"],
         stop:["高炭水化物食・追加の糖負荷を避ける","<mark>中止すべき薬ではないが</mark>、非選択的β遮断薬(プロプラノロール)は<mark>甲状腺中毒性周期性四肢麻痺の症状緩和に有効</mark>とされ、他の原因の低K血症とは対応が異なる点に注意する"],
         rate:["<mark>本症例は細胞内シフトのみで体内総K量は減っていないため、他の低K血症と同じ量を入れてはならない</mark>。末梢静脈からのK補充は10mEq/時程度に抑え、心電図モニター下でも過大な速度・総量にしない","<mark>Mgを先または同時に補正しないとKの是正が進まない</mark>ことを前提に投与計画を立てる"]
@@ -636,7 +636,7 @@
       vignette:"20代女性。神経性やせ症で数週間にわたり摂食が極端に制限されていた。入院し高カロリーの経管栄養を通常量で開始したところ、2日目に呼吸苦と下肢浮腫、脱力が出現した。",
       labs:[ {k:"P",v:"1.2",u:"mg/dL",abn:"low"}, {k:"K",v:"2.8",u:"mEq/L",abn:"low"}, {k:"Mg",v:"1.1",u:"mg/dL",abn:"low"}, {k:"血糖",v:"162",u:"mg/dL",abn:"high"} ],
       answer:{
-        urgent:["<mark>低栄養患者への急な高カロリー投与後の呼吸苦・浮腫はリフィーディング症候群を疑う緊急事態</mark>","心不全・呼吸筋力低下による呼吸不全に進展しうるため、呼吸数・SpO2や心不全徴候を評価する"],
+        urgent:["<mark>低栄養患者への急な高カロリー投与後の呼吸苦・浮腫はリフィーディング症候群を疑う緊急事態</mark>","心不全・呼吸筋力低下による呼吸不全に進展しうるため、呼吸数・SpO2や心不全徴候を評価する","<mark>疑った時点で上級医・栄養サポートチームに速やかに報告</mark>し、単独で栄養投与量の判断を続けない"],
         treat:["<mark>原因検索より先に栄養投与量を減量</mark>し、<mark>P・K・Mgをまとめて再検・補正</mark>することが最優先(リフィーディングでは3者がまとめて低下しやすい)","<mark>チアミン(ビタミンB1)を糖質投与に必ず先行させる</mark>(同時開始でも遅い)。Wernicke脳症を予防する","<mark>輸液・栄養に含まれるNaと水分も制限し(体重・水分出納・浮腫を追う)、心不全徴候の出現に注意する</mark>——本症例の下肢浮腫もインスリン作用によるNa・水貯留の表れでありうる"],
         stop:["<mark>高カロリー・高炭水化物の栄養投与を減量する</mark>(完全に中止するのではなく、概ね50%程度に減らして継続する)","糖質を多く含む輸液(ブドウ糖液など)も見直す"],
         rate:["栄養投与は<mark>低いカロリーから開始し数日かけて漸増</mark>する","電解質は<mark>症状が出る前に予防的に補正</mark>しておくのが基本方針"]
@@ -709,12 +709,14 @@
       return (p && typeof p === "object" && !Array.isArray(p)) ? p : {};
     }catch(e){ return {}; }
   }
-  function saveProgress(p){
+  // Read-merge-write, scoped to the single case that changed: replaying the whole
+  // in-memory state.progress here (as the old signature did) would re-overwrite every
+  // other case with this tab's possibly-stale snapshot, clobbering a concurrent tab's
+  // newer write to an unrelated case.
+  function saveProgress(caseId, status){
     try{
-      // Read-merge-write: another tab may have saved newer progress since this tab's
-      // in-memory state was last loaded. Overwriting wholesale would silently drop it.
       var stored = loadProgress();
-      Object.keys(p).forEach(function(k){ stored[k] = p[k]; });
+      stored[caseId] = status;
       localStorage.setItem(STORE_KEY, JSON.stringify(stored));
       state.progress = stored;
       return true;
@@ -1150,8 +1152,7 @@
           var c0 = caseById(state.caseId);
           if(!c0) return;
           pendingStatus[state.caseId] = kind;
-          state.progress[state.caseId] = kind;
-          lastSaveFailed = !saveProgress(state.progress);
+          lastSaveFailed = !saveProgress(state.caseId, kind);
           render();
         } else if(action==="next-case"){
           var c = caseById(state.caseId);
