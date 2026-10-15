@@ -501,6 +501,7 @@
       id:"hyperna_dehydration", num:1, cat:"na", tag:"Na異常",
       title:"高ナトリウム血症", hint:"85歳女性・施設入所中・摂食低下と発熱後の意識障害",
       vignette:"85歳女性(体重45kg)。施設入所中で認知症あり。数日前からの経口摂取低下と発熱があり、本日は呼びかけへの反応が乏しくなったため搬送された。皮膚のツルゴール低下、口腔粘膜の乾燥を認める。",
+      vitals:"体温 38.2℃ / 血圧 92/54mmHg / 脈拍 112/分 / 呼吸数 22/分 / SpO2 95%(室内気) / 意識 JCS II-10",
       labs:[ {k:"Na",v:"162",u:"mEq/L",abn:"high"}, {k:"K",v:"4.0",u:"mEq/L",abn:"normal"}, {k:"Cr",v:"1.6",u:"mg/dL",abn:"high"}, {k:"血漿浸透圧",v:"336",u:"mOsm/kg",abn:"high"} ],
       answer:{
         urgent:["意識障害を伴う<mark>症候性高Na血症は緊急対応が必要</mark>だが、補正の速度自体は急いではいけない","意識レベル・血圧・尿量から<mark>脱水の重症度</mark>を素早く把握し、緊急度を判断する"],
@@ -517,6 +518,7 @@
       id:"hypona_polydipsia", num:2, cat:"na", tag:"Na異常",
       title:"重症低ナトリウム血症（症候性）", hint:"50代女性・大量の水分摂取歴・痙攣で搬送",
       vignette:"50代女性。心因性の多飲があり、来院前に痙攣が1回あった。搬入時は傾眠傾向。体液量は正常〜やや過剰に見える。",
+      vitals:"体温 36.8℃ / 血圧 138/82mmHg / 脈拍 96/分 / 呼吸数 18/分 / SpO2 97%(室内気) / 意識 JCS II-10",
       labs:[ {k:"Na",v:"108",u:"mEq/L",abn:"low"}, {k:"血漿浸透圧",v:"224",u:"mOsm/kg",abn:"low"}, {k:"尿浸透圧",v:"80",u:"mOsm/kg",abn:"low"} ],
       answer:{
         urgent:["痙攣を伴う<mark>症候性の重症低Na血症は救急対応が必要</mark>","頭痛・嘔気・傾眠〜痙攣・昏睡という<mark>症状の重症度</mark>がそのまま介入の閾値になる。<mark>痙攣を認めた時点で上級医にも同時にコールする</mark>——単独判断で完結させない"],
@@ -533,6 +535,7 @@
       id:"siadh", num:3, cat:"na", tag:"Na異常",
       title:"SIADHによる低ナトリウム血症", hint:"70代男性・肺癌の既往・緩徐な倦怠感と食思不振",
       vignette:"70代男性。肺癌の治療歴あり。この2週間で進行する倦怠感と食思不振を主訴に受診した。皮膚のツルゴールは保たれ浮腫もなく、起立性の血圧低下もない。",
+      vitals:"体温 36.6℃ / 血圧 128/76mmHg / 脈拍 78/分 / 呼吸数 16/分 / SpO2 96%(室内気) / 意識清明",
       labs:[ {k:"Na",v:"122",u:"mEq/L",abn:"low"}, {k:"血漿浸透圧",v:"254",u:"mOsm/kg",abn:"low"}, {k:"尿浸透圧",v:"420",u:"mOsm/kg",abn:"high"}, {k:"尿Na",v:"45",u:"mEq/L",abn:"high"} ],
       finding:"早朝コルチゾール・TSHは基準範囲内",
       answer:{
@@ -549,7 +552,8 @@
     {
       id:"hyperk_ckd", num:4, cat:"k", tag:"K異常",
       title:"高カリウム血症（心電図変化あり）", hint:"70代男性・CKDでACE阻害薬+スピロノラクトン内服中・下痢後の徐脈",
-      vignette:"70代男性。CKD(eGFR 25)でACE阻害薬とスピロノラクトンを内服中。3日前からの下痢に続き、倦怠感と徐脈を主訴に受診した。",
+      vignette:"70代男性。CKD(eGFR 25)でACE阻害薬とスピロノラクトンを内服中。3日前からの下痢に続き、倦怠感と徐脈を主訴に受診した。3か月前の外来ではCr 2.0mg/dLだった。",
+      vitals:"体温 36.5℃ / 血圧 104/62mmHg / 脈拍 42/分 / 呼吸数 18/分 / SpO2 96%(室内気) / 意識清明",
       labs:[ {k:"K",v:"6.8",u:"mEq/L",abn:"high"}, {k:"Cr",v:"3.1",u:"mg/dL",abn:"high"} ],
       finding:"心電図：テント状T波、PR延長",
       answer:{
@@ -567,6 +571,7 @@
       id:"hypok_mg_periodic", num:5, cat:"k", tag:"K・Mg異常",
       title:"低カリウム血症とQT延長（周期性四肢麻痺）", hint:"20代男性・甲状腺機能亢進の既往・運動後の急激な四肢脱力",
       vignette:"20代男性。バセドウ病の既往があり内服は自己中断していた。炭水化物を多く含む夕食と激しい運動の後、両下肢に始まる急激な脱力が出現し動けなくなった。",
+      vitals:"体温 36.9℃ / 血圧 146/70mmHg / 脈拍 118/分 / 呼吸数 20/分 / SpO2 97%(室内気) / 意識清明",
       labs:[ {k:"K",v:"2.1",u:"mEq/L",abn:"low"}, {k:"Mg",v:"1.2",u:"mg/dL",abn:"low"}, {k:"FT4",v:"4.8",u:"ng/dL",abn:"high"}, {k:"TSH",v:"<0.01",u:"μIU/mL",abn:"low"} ],
       finding:"心電図：QT延長、U波",
       answer:{
@@ -584,6 +589,7 @@
       id:"hypomg_ppi", num:6, cat:"k", tag:"Mg異常", ion:"Mg",
       title:"難治性低カリウム血症の背景にある低マグネシウム血症", hint:"70代女性・PPI長期内服+ループ利尿薬・KCl補充を繰り返しても改善しない低K血症",
       vignette:"70代女性。逆流性食道炎に対しPPIを5年以上内服、心不全に対しループ利尿薬も併用中。外来でKCl処方を繰り返しているが低K血症が改善しない。",
+      vitals:"体温 36.4℃ / 血圧 118/66mmHg / 脈拍 72/分 / 呼吸数 16/分 / SpO2 97%(室内気) / 意識清明",
       labs:[ {k:"K",v:"2.9",u:"mEq/L",abn:"low"}, {k:"Mg",v:"1.0",u:"mg/dL",abn:"low"}, {k:"補正Ca",v:"8.1",u:"mg/dL",abn:"low"} ],
       finding:"（経口KCl 40mEq/日投与下でも改善なし）",
       answer:{
@@ -601,6 +607,7 @@
       id:"hyperca_malignancy", num:7, cat:"ca", tag:"Ca異常",
       title:"悪性腫瘍による高カルシウム血症", hint:"60代男性・肺扁平上皮癌の既往・体重減少と意識もうろう状態",
       vignette:"60代男性。肺扁平上皮癌の既往あり。数週間で体重減少、多尿、便秘が進行し、本日は意識がもうろうとして搬送された。",
+      vitals:"体温 37.0℃ / 血圧 102/60mmHg / 脈拍 104/分 / 呼吸数 18/分 / SpO2 96%(室内気) / 意識 JCS I-3",
       labs:[ {k:"補正Ca",v:"14.2",u:"mg/dL",abn:"high"}, {k:"P",v:"2.0",u:"mg/dL",abn:"low"}, {k:"PTH",v:"8",u:"pg/mL",abn:"low"} ],
       finding:"胸部X線で右肺門部腫瘤影、Alb 3.0g/dL",
       answer:{
@@ -618,6 +625,7 @@
       id:"hypoca_postop", num:8, cat:"ca", tag:"Ca異常",
       title:"甲状腺全摘後の低カルシウム血症", hint:"50代女性・甲状腺全摘術翌日・口周囲のしびれとつっぱり感",
       vignette:"50代女性。甲状腺全摘術の翌日、口周囲から手指にかけてのしびれとつっぱり感を訴えている。頬部を軽く叩くと口角がぴくつく。",
+      vitals:"体温 36.9℃ / 血圧 124/72mmHg / 脈拍 84/分 / 呼吸数 18/分 / SpO2 98%(室内気) / 意識清明",
       labs:[ {k:"補正Ca",v:"6.8",u:"mg/dL",abn:"low"}, {k:"Mg",v:"1.6",u:"mg/dL",abn:"low"}, {k:"PTH",v:"5",u:"pg/mL",abn:"low"} ],
       answer:{
         urgent:["しびれ・テタニー(Chvostek/Trousseau徴候陽性)などの<mark>症候性所見の有無</mark>で緊急度を判定する","喉頭痙攣・気道症状やQT延長がないか確認する"],
@@ -633,7 +641,8 @@
     {
       id:"refeeding", num:9, cat:"ca", tag:"複合病態", ion:"P",
       title:"リフィーディング症候群", hint:"20代女性・神経性やせ症で長期の摂食制限後・栄養再開後2日目の呼吸苦",
-      vignette:"20代女性。神経性やせ症で数週間にわたり摂食が極端に制限されていた。入院し高カロリーの経管栄養を通常量で開始したところ、2日目に呼吸苦と下肢浮腫、脱力が出現した。",
+      vignette:"20代女性(身長158cm・体重34kg、BMI 13.6)。神経性やせ症で数週間にわたり摂食が極端に制限されていた。入院し高カロリーの経管栄養を通常量で開始したところ、2日目に呼吸苦と下肢浮腫、脱力が出現した。",
+      vitals:"体温 36.2℃ / 血圧 96/58mmHg / 脈拍 112/分 / 呼吸数 26/分 / SpO2 93%(室内気) / 意識清明",
       labs:[ {k:"P",v:"1.2",u:"mg/dL",abn:"low"}, {k:"K",v:"2.8",u:"mEq/L",abn:"low"}, {k:"Mg",v:"1.1",u:"mg/dL",abn:"low"}, {k:"血糖",v:"162",u:"mg/dL",abn:"high"} ],
       answer:{
         urgent:["<mark>低栄養患者への急な高カロリー投与後の呼吸苦・浮腫はリフィーディング症候群を疑う緊急事態</mark>","心不全・呼吸筋力低下による呼吸不全に進展しうるため、呼吸数・SpO2や心不全徴候を評価する","<mark>疑った時点で上級医・栄養サポートチームに速やかに報告</mark>し、単独で栄養投与量の判断を続けない"],
@@ -641,7 +650,7 @@
         stop:["<mark>高カロリー・高炭水化物の栄養投与を減量する</mark>(完全に中止するのではなく、概ね50%程度に減らして継続する)","糖質を多く含む輸液(ブドウ糖液など)も見直す"],
         rate:["栄養投与は<mark>低いカロリーから開始し数日かけて漸増</mark>する","電解質は<mark>症状が出る前に予防的に補正</mark>しておくのが基本方針"]
       },
-      rx:["<mark>チアミン(フルスルチアミン)100〜300mg/日を栄養再開前から静注で開始</mark>し、数日間継続してWernicke脳症を予防する(糖質投与に遅れて開始しない)","栄養投与は<mark>本症例のような極高リスク例(著明なるいそう、数週間以上のほぼ絶食)では5〜10kcal/kg/日程度から開始</mark>(NICE基準)し、P・K・Mgと血糖を頻回にモニタリングしながら数日〜1週間ほどかけて漸増する(それ以外の例ではASPEN基準の10〜20kcal/kg/日からの開始が目安)","リン酸補正はリン酸として0.08〜0.5mmol/kgを6時間程度かけて緩徐に点滴する。<mark>急速投与は低Ca血症・異所性石灰化のリスクがあり厳禁</mark>。<mark>国内のリン酸製剤(リン酸二カリウム注等)はK塩が多く、K負荷を同時に受ける。Kの別途補正量と合算して管理する</mark>"],
+      rx:["<mark>チアミン(フルスルチアミン)100〜300mg/日を栄養再開前から静注で開始</mark>し、数日間継続してWernicke脳症を予防する(糖質投与に遅れて開始しない)","栄養投与は<mark>本症例のような極高リスク例(著明なるいそう、数週間以上のほぼ絶食)では5〜10kcal/kg/日程度から開始</mark>(NICE基準。<mark>本症例(体重34kg)では約170〜340kcal/日</mark>)し、P・K・Mgと血糖を頻回にモニタリングしながら数日〜1週間ほどかけて漸増する(それ以外の例ではASPEN基準の10〜20kcal/kg/日からの開始が目安)","リン酸補正はリン酸として0.08〜0.5mmol/kgを6時間程度かけて緩徐に点滴する。<mark>急速投与は低Ca血症・異所性石灰化のリスクがあり厳禁</mark>。<mark>国内のリン酸製剤(リン酸二カリウム注等)はK塩が多く、K負荷を同時に受ける。Kの別途補正量と合算して管理する</mark>"],
       pitfall:"「低栄養なんだからしっかり栄養を入れないと」と<mark>通常量・急速に高カロリー栄養を開始する</mark>のがそもそもの誤り。予防できる病態であり、開始前のP・K・Mgチェックとチアミン投与、緩徐な増量が対策の中心になる。",
       pearl:["リフィーディング症候群はインスリン分泌の急増に伴う細胞内への<mark>P・K・Mgの急激なシフト</mark>が本態である","低P血症は心筋・呼吸筋の機能低下を介して心不全・呼吸不全を来しうる","高リスク患者(長期絶食、著明なるいそう、アルコール多飲歴など)を事前に同定し予防的に対応することが最も重要"],
       refs:[ {author:"da Silva JSV, et al.", title:"ASPEN Consensus Recommendations for Refeeding Syndrome", source:"Nutrition in Clinical Practice", year:"2020", url:"https://doi.org/10.1002/ncp.10474"}, {author:"日本静脈経腸栄養学会(JSPEN).", title:"静脈経腸栄養ガイドライン第3版", source:"照林社", year:"2013", url:"https://minds.jcqhc.or.jp/summary/c00230/"}, {author:"National Institute for Health and Care Excellence (NICE).", title:"Nutrition support for adults: oral nutrition support, enteral tube feeding and parenteral nutrition (CG32)", source:"NICE Guideline", year:"2017", url:"https://www.nice.org.uk/guidance/cg32"} ]
@@ -935,6 +944,7 @@
     var html = "";
     html += '<div class="case-hero"><div class="tag '+cat+'">症例 '+(c.num<10?"0":"")+c.num+'・'+c.tag+'</div><h1>'+c.hint+'</h1></div>';
     html += '<div class="vignette">'+c.vignette;
+    if(c.vitals){ html += '<div class="finding-line"><b>バイタル　</b>'+escapeHtml(c.vitals)+'</div>'; }
     html += '<div class="lab-strip">'+c.labs.map(labChipHtml).join("")+'</div>';
     if(c.finding){ html += '<div class="finding-line"><b>所見　</b>'+escapeHtml(c.finding)+'</div>'; }
     html += '</div>';
